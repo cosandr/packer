@@ -1,4 +1,4 @@
-# Packer templates for QEMU and PVE
+# Packer templates
 
 Open ports 8000:9000 in firewall from VM interface (virbr0).
 
@@ -15,3 +15,10 @@ sudo firewall-cmd --reload
 [Official documentation](https://wiki.debian.org/DebianInstaller/Preseed)
 
 [All options for Debian 11](https://preseed.debian.net/debian-preseed/bullseye/amd64-main-full.txt)
+
+## VMWare
+
+`home.auto.pkrvars.hcl`
+```hcl
+vcenter_pass = "mysecretpass"
+```
