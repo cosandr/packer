@@ -7,7 +7,7 @@ source "vsphere-clone" "rocky" {
   host                     = var.vcenter_host
   datastore                = var.vcenter_datastore
   folder                   = "Discovered virtual machine"
-  template                 = "templates/base-rocky-test"
+  template                 = "templates/base-rocky"
   ssh_username             = "root"
   ssh_password             = var.ssh_password
 }
