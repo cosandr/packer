@@ -4,7 +4,7 @@ source "vsphere-clone" "rocky" {
   password                 = var.vcenter_pass
   insecure_connection      = true
   datacenter               = var.vcenter_datacenter
-  cluster                  = var.vcenter_cluster
+  host                     = var.vcenter_host
   datastore                = var.vcenter_datastore
   folder                   = "Discovered virtual machine"
   template                 = "templates/base-rocky-test"
