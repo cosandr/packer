@@ -28,7 +28,7 @@ source "vsphere-iso" "base-rocky" {
   cd_files                 =  ["./ks.cfg"]
   cd_label                 = "install_data"
   iso_checksum             = "file:https://download.rockylinux.org/pub/rocky/8/isos/x86_64/CHECKSUM"
-  iso_url                  = "https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.4-x86_64-minimal.iso"
+  iso_url                  = "https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.5-x86_64-minimal.iso"
   remove_cdrom             = true
   shutdown_command         = "shutdown -P now"
   ssh_timeout              = "900s"
