@@ -21,6 +21,43 @@
       when: __grub_search.matched > 0
 
   tasks:
+    - name: Install grow-rootfs script
+      copy:
+        dest: /usr/bin/grow-rootfs
+        owner: root
+        group: root
+        mode: 0755
+        content: |
+          #!/bin/bash
+          set -euo pipefail
+
+          if ! fdisk -l /dev/sda 2>&1 >/dev/null | grep -q 'size mismatch'; then
+            echo "No mismatch detected"
+            exit 0
+          fi
+
+          growpart /dev/sda 3
+          resize2fs /dev/sda3
+          systemctl disable grow-rootfs.service
+
+    - name: Install grow-rootfs service
+      copy:
+        dest: "/etc/systemd/system/grow-rootfs.service"
+        owner: root
+        group: root
+        mode: 0644
+        content: |
+          [Unit]
+          Description=Resize rootfs on boot
+
+          [Service]
+          Type=oneshot
+          ExecStart=/usr/bin/grow-rootfs
+
+          [Install]
+          WantedBy=local-fs.target
+      notify: enable grow-rootfs
+
     - name: Disable grub timeout
       lineinfile:
         dest: "/etc/default/grub"
@@ -44,6 +81,12 @@
         password: '$6$UEcjS6FuN34m0LNh$keSth27mGIKRgk4goS.SZJRJX4WlP71wRf8hsHVlRbnhA1NC3QRSPanqyUWC26SDAvZyyiaE2n1dMUSVe6VcJ1'
 
   handlers:
+    - name: enable grow-rootfs
+      systemd:
+        daemon_reload: true
+        name: grow-rootfs.service
+        enabled: true
+
     - name: regenerate grub
       command: "grub2-mkconfig -o {{ grub_cfg_path }}"
       when: "grub_cfg_path is defined"
