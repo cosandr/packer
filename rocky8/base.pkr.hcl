@@ -4,7 +4,7 @@ source "vsphere-iso" "base-rocky" {
   password                 = var.vcenter_pass
   insecure_connection      = true
   datacenter               = var.vcenter_datacenter
-  host                     = var.vcenter_host
+  cluster                  = var.vcenter_cluster
   datastore                = var.vcenter_datastore
   vm_name                  = "base-rocky"
   folder                   = "Discovered virtual machine"
