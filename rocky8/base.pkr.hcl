@@ -21,7 +21,7 @@ source "vsphere-iso" "base-rocky" {
     disk_controller_index  = 0
   }
   network_adapters {
-      network = "VLAN10"
+      network = "VM"
       network_card = "vmxnet3"
   }
   guest_os_type            = "centos8_64Guest"
