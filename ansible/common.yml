@@ -2,6 +2,14 @@
 
 - hosts: all
   become: true
+  vars:
+    dnf_automatic_timer_enabled: true
+    dnf_automatic_upgrade_type: "security"
+    dnf_automatic_apply_updates: true
+    dnf_automatic_download_updates: true
+    unattended_remove_unused_dependencies: true
+    unattended_remove_new_unused_dependencies: true
+    unattended_automatic_reboot: false
   pre_tasks:
     - name: Check for grub config
       stat:
@@ -19,6 +27,13 @@
       set_fact:
         grub_cfg_path: "{{ __grub_search.files[0].path }}"
       when: __grub_search.matched > 0
+
+  roles:
+    - role: jnv.unattended-upgrades
+      when: ansible_os_family == 'Debian'
+
+    - role: cosandr.dnf_automatic
+      when: ansible_os_family == 'RedHat'
 
   tasks:
     - name: Install grow-rootfs script

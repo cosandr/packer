@@ -1,0 +1,8 @@
+---
+
+roles:
+  - name: cosandr.dnf_automatic
+    src: https://github.com/cosandr/ansible-role-dnf-automatic.git
+    scm: git
+
+  - jnv.unattended-upgrades

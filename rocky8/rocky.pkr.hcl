@@ -25,6 +25,9 @@ build {
 
   provisioner "ansible" {
     playbook_file = "../ansible/common.yml"
+    galaxy_file = "../ansible/common.requirements.yml"
+    # Prevent errors when role is already installed
+    galaxy_force_install = true
     extra_arguments = [
       "--extra-vars", "ansible_ssh_pass=${var.ssh_password}"
     ]
@@ -36,6 +39,7 @@ build {
   provisioner "ansible" {
     playbook_file = "../ansible/docker.yml"
     galaxy_file = "../ansible/docker.requirements.yml"
+    galaxy_force_install = true
     only = ["vsphere-clone.rocky_docker_packer"]
     ansible_ssh_extra_args = [
       "-o", "ForwardAgent=yes"
