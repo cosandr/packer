@@ -1,4 +1,4 @@
-source "vsphere-iso" "base-rocky" {
+source "vsphere-iso" "base-el" {
   vcenter_server           = var.vcenter_server
   username                 = var.vcenter_user
   password                 = var.vcenter_pass
@@ -6,7 +6,6 @@ source "vsphere-iso" "base-rocky" {
   datacenter               = var.vcenter_datacenter
   cluster                  = var.vcenter_cluster
   datastore                = var.vcenter_datastore
-  vm_name                  = "base-rocky"
   folder                   = "Discovered virtual machine"
   boot_wait                = "5s"
   disk_controller_type     = ["pvscsi"]
@@ -24,11 +23,7 @@ source "vsphere-iso" "base-rocky" {
       network = "VM"
       network_card = "vmxnet3"
   }
-  guest_os_type            = "centos8_64Guest"
-  cd_files                 =  ["./ks.cfg"]
   cd_label                 = "install_data"
-  iso_checksum             = "file:https://download.rockylinux.org/pub/rocky/8/isos/x86_64/CHECKSUM"
-  iso_url                  = "https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.5-x86_64-minimal.iso"
   remove_cdrom             = true
   shutdown_command         = "shutdown -P now"
   ssh_timeout              = "900s"
@@ -40,8 +35,34 @@ source "vsphere-iso" "base-rocky" {
 }
 
 build {
-  source "source.vsphere-iso.base-rocky" {
-    name         = "base-rocky"
+  source "source.vsphere-iso.base-el" {
+    name          = "base-rocky"
+    vm_name       = "base-rocky"
+    guest_os_type = "centos8_64Guest"
+    cd_files      =  ["./rocky8/ks.cfg"]
+    iso_checksum  = "file:https://download.rockylinux.org/pub/rocky/8/isos/x86_64/CHECKSUM"
+    iso_url       = "https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.5-x86_64-minimal.iso"
+  }
+
+  source "source.vsphere-iso.base-el" {
+    name          = "base-cs8"
+    vm_name       = "base-cs8"
+    guest_os_type = "centos8_64Guest"
+    cd_files      =  ["./cs8/ks.cfg"]
+    # http://isoredirect.centos.org/centos/8-stream/isos/x86_64/
+    iso_checksum  = "file:https://mirror.zetup.net/CentOS/8-stream/isos/x86_64/CHECKSUM"
+    iso_url       = "https://mirror.zetup.net/CentOS/8-stream/isos/x86_64/CentOS-Stream-8-x86_64-latest-boot.iso"
+  }
+
+  source "source.vsphere-iso.base-el" {
+    name          = "base-cs9"
+    vm_name       = "base-cs9"
+    guest_os_type = "rhel9_64Guest"
+    cd_files      =  ["./cs9/ks.cfg"]
+    # https://admin.fedoraproject.org/mirrormanager/mirrors/CentOS
+    # Currently broken, doesn't boot
+    iso_checksum  = "file:https://linuxsoft.cern.ch/centos-stream/9-stream/BaseOS/x86_64/iso/SHA256SUM"
+    iso_url       = "https://linuxsoft.cern.ch/centos-stream/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-20211222.0-x86_64-dvd1.iso"
   }
 
   post-processor "vsphere-template" {

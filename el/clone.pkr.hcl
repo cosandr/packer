@@ -1,4 +1,4 @@
-source "vsphere-clone" "rocky" {
+source "vsphere-clone" "el" {
   vcenter_server           = var.vcenter_server
   username                 = var.vcenter_user
   password                 = var.vcenter_pass
@@ -7,20 +7,33 @@ source "vsphere-clone" "rocky" {
   cluster                  = var.vcenter_cluster
   datastore                = var.vcenter_datastore
   folder                   = "Discovered virtual machine"
-  template                 = "templates/base-rocky"
   ssh_username             = "root"
   ssh_password             = var.ssh_password
 }
 
 build {
-  source "source.vsphere-clone.rocky" {
+  source "source.vsphere-clone.el" {
     name         = "rocky_packer"
     vm_name      = "rocky_packer"
+    template     = "templates/base-rocky"
   }
 
-  source "source.vsphere-clone.rocky" {
+  source "source.vsphere-clone.el" {
+    name         = "cs8_packer"
+    vm_name      = "cs8_packer"
+    template     = "templates/base-cs8"
+  }
+
+  source "source.vsphere-clone.el" {
+    name         = "cs9_packer"
+    vm_name      = "cs9_packer"
+    template     = "templates/base-cs9"
+  }
+
+  source "source.vsphere-clone.el" {
     name         = "rocky_docker_packer"
     vm_name      = "rocky_docker_packer"
+    template     = "templates/base-rocky"
   }
 
   provisioner "ansible" {

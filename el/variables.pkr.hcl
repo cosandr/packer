@@ -3,7 +3,7 @@ variable "vcenter_pass" {
   sensitive = true
 }
 
-variable "vcenter_server"     { default = "10.0.100.10" }
+variable "vcenter_server"     { default = "vcenter.hlab.no" }
 variable "vcenter_user"       { default = "administrator@vsphere.local" }
 variable "vcenter_datacenter" { default = "Home" }
 variable "vcenter_cluster"    { default = "Home" }
