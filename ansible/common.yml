@@ -36,6 +36,22 @@
       when: ansible_os_family == 'RedHat'
 
   tasks:
+    - name: Update all packages (RedHat)
+      dnf:
+        name: '*'
+        state: latest
+        update_cache: true
+      when: ansible_os_family == 'RedHat'
+
+    - name: Update all packages (Debian)
+      apt:
+        name: "*"
+        state: latest
+        update_cache: true
+        autoclean: true
+        autoremove: true
+      when: ansible_os_family == 'Debian'
+
     - name: Install grow-rootfs script
       copy:
         dest: /usr/bin/grow-rootfs
