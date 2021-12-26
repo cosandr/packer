@@ -1,3 +1,16 @@
+locals {
+  bios_command = [
+    "<up><tab><bs><bs><bs><bs><bs>",
+    "inst.ks=cdrom:LABEL=install_data:/ks.cfg",
+    "<enter>",
+  ]
+  efi_command = [
+    "<up>e<down><down><end><bs><bs><bs><bs><bs>",
+    "inst.ks=cdrom:LABEL=install_data:/ks.cfg",
+    "<leftCtrlOn>x<leftCtrlOff>",
+  ]
+}
+
 source "vsphere-iso" "base-el" {
   vcenter_server           = var.vcenter_server
   username                 = var.vcenter_user
@@ -9,11 +22,6 @@ source "vsphere-iso" "base-el" {
   folder                   = "Discovered virtual machine"
   boot_wait                = "5s"
   disk_controller_type     = ["pvscsi"]
-  boot_command             = [
-    "<up>e<down><down><end><bs><bs><bs><bs><bs>",
-    "inst.ks=cdrom:LABEL=install_data:/ks.cfg",
-    "<leftCtrlOn>x<leftCtrlOff>",
-  ]
   storage {
     disk_size              = 10000
     disk_thin_provisioned  = true
@@ -31,7 +39,6 @@ source "vsphere-iso" "base-el" {
   ssh_password             = var.ssh_password
   CPUs                     = 4
   RAM                      = 4096
-  firmware                 = "efi"
 }
 
 build {
@@ -40,6 +47,8 @@ build {
     vm_name       = "base-rocky"
     guest_os_type = "centos8_64Guest"
     cd_files      =  ["./rocky8/ks.cfg"]
+    firmware      = "efi"
+    boot_command  = local.efi_command
     iso_checksum  = "file:https://download.rockylinux.org/pub/rocky/8/isos/x86_64/CHECKSUM"
     iso_url       = "https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.5-x86_64-minimal.iso"
   }
@@ -49,6 +58,8 @@ build {
     vm_name       = "base-cs8"
     guest_os_type = "centos8_64Guest"
     cd_files      =  ["./cs8/ks.cfg"]
+    firmware      = "efi"
+    boot_command  = local.efi_command
     # http://isoredirect.centos.org/centos/8-stream/isos/x86_64/
     iso_checksum  = "file:https://mirror.zetup.net/CentOS/8-stream/isos/x86_64/CHECKSUM"
     iso_url       = "https://mirror.zetup.net/CentOS/8-stream/isos/x86_64/CentOS-Stream-8-x86_64-latest-boot.iso"
@@ -59,8 +70,10 @@ build {
     vm_name       = "base-cs9"
     guest_os_type = "rhel9_64Guest"
     cd_files      =  ["./cs9/ks.cfg"]
+    firmware      = "bios"
+    boot_command  = local.bios_command
     # https://admin.fedoraproject.org/mirrormanager/mirrors/CentOS
-    # Currently broken, doesn't boot
+    # EFI currently broken
     iso_checksum  = "file:https://linuxsoft.cern.ch/centos-stream/9-stream/BaseOS/x86_64/iso/SHA256SUM"
     iso_url       = "https://linuxsoft.cern.ch/centos-stream/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-20211222.0-x86_64-dvd1.iso"
   }
