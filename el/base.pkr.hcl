@@ -19,7 +19,7 @@ source "vsphere-iso" "base-el" {
   datacenter               = var.vcenter_datacenter
   cluster                  = var.vcenter_cluster
   datastore                = var.vcenter_datastore
-  folder                   = "Discovered virtual machine"
+  folder                   = "templates"
   boot_wait                = "5s"
   disk_controller_type     = ["pvscsi"]
   storage {
@@ -39,6 +39,7 @@ source "vsphere-iso" "base-el" {
   ssh_password             = var.ssh_password
   CPUs                     = 4
   RAM                      = 4096
+  convert_to_template      = true
 }
 
 build {
@@ -75,16 +76,6 @@ build {
     # https://admin.fedoraproject.org/mirrormanager/mirrors/CentOS
     # EFI currently broken
     iso_checksum  = "file:https://linuxsoft.cern.ch/centos-stream/9-stream/BaseOS/x86_64/iso/SHA256SUM"
-    iso_url       = "https://linuxsoft.cern.ch/centos-stream/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-20211222.0-x86_64-dvd1.iso"
-  }
-
-  post-processor "vsphere-template" {
-    host          = var.vcenter_server
-    username      = var.vcenter_user
-    password      = var.vcenter_pass
-    insecure      = true
-    datacenter    = var.vcenter_datacenter
-    reregister_vm = false
-    folder        = "/templates"
+    iso_url       = "https://linuxsoft.cern.ch/centos-stream/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-20220328.0-x86_64-dvd1.iso"
   }
 }

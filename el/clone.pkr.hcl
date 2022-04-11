@@ -6,9 +6,10 @@ source "vsphere-clone" "el" {
   datacenter               = var.vcenter_datacenter
   cluster                  = var.vcenter_cluster
   datastore                = var.vcenter_datastore
-  folder                   = "Discovered virtual machine"
+  folder                   = "templates"
   ssh_username             = "root"
   ssh_password             = var.ssh_password
+  convert_to_template      = true
 }
 
 build {
@@ -63,15 +64,5 @@ build {
 
   provisioner "shell" {
     script = "../scripts/cleanup.sh"
-  }
-
-  post-processor "vsphere-template" {
-    host          = var.vcenter_server
-    username      = var.vcenter_user
-    password      = var.vcenter_pass
-    insecure      = true
-    datacenter    = var.vcenter_datacenter
-    folder        = "/templates"
-    reregister_vm = false
   }
 }
