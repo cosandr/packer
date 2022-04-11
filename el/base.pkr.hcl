@@ -28,7 +28,7 @@ source "vsphere-iso" "base-el" {
     disk_controller_index  = 0
   }
   network_adapters {
-      network = "DSwitch VM"
+      network = "DSwitch/VM"
       network_card = "vmxnet3"
   }
   cd_label                 = "install_data"

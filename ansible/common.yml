@@ -52,6 +52,12 @@
         autoremove: true
       when: ansible_os_family == 'Debian'
 
+    - name: Install some packages
+      package:
+        name:
+          - bash-completion
+        state: present
+
     - name: Install grow-rootfs script
       copy:
         dest: /usr/bin/grow-rootfs
