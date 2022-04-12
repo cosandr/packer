@@ -47,7 +47,7 @@ build {
     name          = "base-rocky"
     vm_name       = "base-rocky"
     guest_os_type = "centos8_64Guest"
-    cd_files      =  ["./rocky8/ks.cfg"]
+    cd_files      = ["./rocky8/ks.cfg"]
     firmware      = "efi"
     boot_command  = local.efi_command
     iso_checksum  = "file:https://download.rockylinux.org/pub/rocky/8/isos/x86_64/CHECKSUM"
@@ -58,7 +58,7 @@ build {
     name          = "base-cs8"
     vm_name       = "base-cs8"
     guest_os_type = "centos8_64Guest"
-    cd_files      =  ["./cs8/ks.cfg"]
+    cd_files      = ["./cs8/ks.cfg"]
     firmware      = "efi"
     boot_command  = local.efi_command
     # http://isoredirect.centos.org/centos/8-stream/isos/x86_64/
@@ -70,12 +70,29 @@ build {
     name          = "base-cs9"
     vm_name       = "base-cs9"
     guest_os_type = "rhel9_64Guest"
-    cd_files      =  ["./cs9/ks.cfg"]
+    cd_files      = ["./cs9/ks.cfg"]
     firmware      = "bios"
     boot_command  = local.bios_command
     # https://admin.fedoraproject.org/mirrormanager/mirrors/CentOS
     # EFI currently broken
     iso_checksum  = "file:https://linuxsoft.cern.ch/centos-stream/9-stream/BaseOS/x86_64/iso/SHA256SUM"
     iso_url       = "https://linuxsoft.cern.ch/centos-stream/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-20220328.0-x86_64-dvd1.iso"
+  }
+
+  source "source.vsphere-iso.base-el" {
+    name          = "base-fedora35_btrfs"
+    vm_name       = "base-fedora35_btrfs"
+    guest_os_type = "fedora64Guest"
+    cd_files      = ["./fedora/btrfs/ks.cfg"]
+    firmware      = "efi"
+    boot_command  = [
+    "<up>e<down><down><end><bs><bs><bs><bs><bs>",
+    "inst.ks=cdrom:LABEL=install_data:/ks.cfg",
+    # https://bugzilla.redhat.com/show_bug.cgi?id=2019579#c24
+    " inst.updates=https://rvykydal.fedorapeople.org/update-images/updates.f35-2019579-resolvconf.img",
+    "<leftCtrlOn>x<leftCtrlOff>",
+  ]
+    iso_checksum  = "file:https://getfedora.org/static/checksums/35/iso/Fedora-Server-35-1.2-x86_64-CHECKSUM"
+    iso_url       = "https://download.fedoraproject.org/pub/fedora/linux/releases/35/Server/x86_64/iso/Fedora-Server-netinst-x86_64-35-1.2.iso"
   }
 }

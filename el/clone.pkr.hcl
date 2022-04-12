@@ -49,6 +49,12 @@ build {
     template     = "templates/base-rocky"
   }
 
+  source "source.vsphere-clone.el" {
+    name         = "fedora35_btrfs_packer"
+    vm_name      = "fedora35_btrfs_packer"
+    template     = "templates/base-fedora35_btrfs"
+  }
+
   provisioner "ansible" {
     playbook_file = "../ansible/common.yml"
     galaxy_file = "../ansible/common.requirements.yml"
