@@ -1,3 +1,15 @@
+locals {
+  ansible_env_vars = [
+    "ANSIBLE_HOST_KEY_CHECKING=False",
+    "ANSIBLE_NOCOLOR=True"
+  ]
+  ansible_ssh_extra_args = [
+    "-o", "ForwardAgent=yes",
+    "-o", "ControlMaster=auto",
+    "-o", "ControlPersist=60s",
+  ]
+}
+
 source "vsphere-clone" "el" {
   vcenter_server           = var.vcenter_server
   username                 = var.vcenter_user
@@ -40,24 +52,21 @@ build {
   provisioner "ansible" {
     playbook_file = "../ansible/common.yml"
     galaxy_file = "../ansible/common.requirements.yml"
-    # Prevent errors when role is already installed
-    galaxy_force_install = true
+    ansible_env_vars = "${local.ansible_env_vars}"
+    ansible_ssh_extra_args = "${local.ansible_ssh_extra_args}"
+    user = "root"
+    use_proxy = false
     extra_arguments = [
       "--extra-vars", "ansible_ssh_pass=${var.ssh_password}"
     ]
-    ansible_ssh_extra_args = []
-    user = "root"
-    use_proxy = false
   }
 
   provisioner "ansible" {
+    only = ["vsphere-clone.rocky_docker_packer"]
     playbook_file = "../ansible/docker.yml"
     galaxy_file = "../ansible/docker.requirements.yml"
-    galaxy_force_install = true
-    only = ["vsphere-clone.rocky_docker_packer"]
-    ansible_ssh_extra_args = [
-      "-o", "ForwardAgent=yes"
-    ]
+    ansible_env_vars = "${local.ansible_env_vars}"
+    ansible_ssh_extra_args = "${local.ansible_ssh_extra_args}"
     user = "root"
     use_proxy = false
   }

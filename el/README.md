@@ -27,3 +27,9 @@ packer build -only '*clone*rocky*' .
 packer build -only '*clone*cs8*' .
 packer build -only '*clone*cs9*' .
 ```
+
+Force install galaxy requirements
+
+```sh
+for f in ansible/*.requirements.yml; do ansible-galaxy install --force -r "$f"; done
+```
