@@ -45,6 +45,12 @@ build {
     template     = "templates/base-fedora36_btrfs"
   }
 
+  source "source.vsphere-clone.el" {
+    name         = "alma9_packer"
+    vm_name      = "alma9_packer"
+    template     = "templates/base-alma9"
+  }
+
   provisioner "ansible" {
     playbook_file = "../ansible/common.yml"
     galaxy_file = "../ansible/common.requirements.yml"

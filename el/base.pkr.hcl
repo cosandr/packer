@@ -9,6 +9,11 @@ locals {
     "inst.ks=cdrom:LABEL=install_data:/ks.cfg",
     "<leftCtrlOn>x<leftCtrlOff>",
   ]
+  efi_el9_command = [
+      "<up>e<down><down><end><bs><bs><bs><bs><bs>",
+      "inst.ks=cdrom",
+      "<leftCtrlOn>x<leftCtrlOff>",
+    ]
 }
 
 source "vsphere-iso" "base-el" {
@@ -51,7 +56,7 @@ build {
     firmware      = "efi"
     boot_command  = local.efi_command
     iso_checksum  = "file:https://download.rockylinux.org/pub/rocky/8/isos/x86_64/CHECKSUM"
-    iso_url       = "https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.5-x86_64-minimal.iso"
+    iso_url       = "https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.6-x86_64-minimal.iso"
   }
 
   source "source.vsphere-iso.base-el" {
@@ -69,14 +74,23 @@ build {
   source "source.vsphere-iso.base-el" {
     name          = "base-cs9"
     vm_name       = "base-cs9"
-    guest_os_type = "rhel9_64Guest"
+    guest_os_type = "centos9_64Guest"
     cd_files      = ["./cs9/ks.cfg"]
-    firmware      = "bios"
-    boot_command  = local.bios_command
-    # https://admin.fedoraproject.org/mirrormanager/mirrors/CentOS
-    # EFI currently broken
-    iso_checksum  = "file:https://linuxsoft.cern.ch/centos-stream/9-stream/BaseOS/x86_64/iso/SHA256SUM"
-    iso_url       = "https://linuxsoft.cern.ch/centos-stream/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-20220328.0-x86_64-dvd1.iso"
+    firmware      = "efi"
+    boot_command  = local.efi_el9_command
+    iso_checksum  = "file:https://mirror.netsite.dk/centos-stream/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-latest-x86_64-boot.iso.SHA256SUM"
+    iso_url       = "https://mirror.netsite.dk/centos-stream/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-latest-x86_64-boot.iso"
+  }
+
+  source "source.vsphere-iso.base-el" {
+    name          = "base-alma9"
+    vm_name       = "base-alma9"
+    guest_os_type = "centos9_64Guest"
+    cd_files      = ["./alma9/ks.cfg"]
+    firmware      = "efi"
+    boot_command  = local.efi_el9_command
+    iso_checksum  = "file:https://almalinux.uib.no/9.0/isos/x86_64/CHECKSUM"
+    iso_url       = "https://almalinux.uib.no/9.0/isos/x86_64/AlmaLinux-9.0-x86_64-boot.iso"
   }
 
   source "source.vsphere-iso.base-el" {
@@ -85,11 +99,7 @@ build {
     guest_os_type = "fedora64Guest"
     cd_files      = ["./fedora/btrfs/ks.cfg"]
     firmware      = "efi"
-    boot_command  = [
-      "<up>e<down><down><end><bs><bs><bs><bs><bs>",
-      "inst.ks=cdrom",
-      "<leftCtrlOn>x<leftCtrlOff>",
-    ]
+    boot_command  = local.efi_el9_command
     iso_checksum  = "file:https://getfedora.org/static/checksums/36/iso/Fedora-Server-36-1.5-x86_64-CHECKSUM"
     iso_url       = "https://download.fedoraproject.org/pub/fedora/linux/releases/36/Server/x86_64/iso/Fedora-Server-netinst-x86_64-36-1.5.iso"
   }
