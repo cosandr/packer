@@ -80,19 +80,17 @@ build {
   }
 
   source "source.vsphere-iso.base-el" {
-    name          = "base-fedora35_btrfs"
-    vm_name       = "base-fedora35_btrfs"
+    name          = "base-fedora36_btrfs"
+    vm_name       = "base-fedora36_btrfs"
     guest_os_type = "fedora64Guest"
     cd_files      = ["./fedora/btrfs/ks.cfg"]
     firmware      = "efi"
     boot_command  = [
-    "<up>e<down><down><end><bs><bs><bs><bs><bs>",
-    "inst.ks=cdrom:LABEL=install_data:/ks.cfg",
-    # https://bugzilla.redhat.com/show_bug.cgi?id=2019579#c24
-    " inst.updates=https://rvykydal.fedorapeople.org/update-images/updates.f35-2019579-resolvconf.img",
-    "<leftCtrlOn>x<leftCtrlOff>",
-  ]
-    iso_checksum  = "file:https://getfedora.org/static/checksums/35/iso/Fedora-Server-35-1.2-x86_64-CHECKSUM"
-    iso_url       = "https://download.fedoraproject.org/pub/fedora/linux/releases/35/Server/x86_64/iso/Fedora-Server-netinst-x86_64-35-1.2.iso"
+      "<up>e<down><down><end><bs><bs><bs><bs><bs>",
+      "inst.ks=cdrom",
+      "<leftCtrlOn>x<leftCtrlOff>",
+    ]
+    iso_checksum  = "file:https://getfedora.org/static/checksums/36/iso/Fedora-Server-36-1.5-x86_64-CHECKSUM"
+    iso_url       = "https://download.fedoraproject.org/pub/fedora/linux/releases/36/Server/x86_64/iso/Fedora-Server-netinst-x86_64-36-1.5.iso"
   }
 }

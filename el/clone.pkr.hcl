@@ -44,9 +44,9 @@ build {
   }
 
   source "source.vsphere-clone.el" {
-    name         = "fedora35_btrfs_packer"
-    vm_name      = "fedora35_btrfs_packer"
-    template     = "templates/base-fedora35_btrfs"
+    name         = "fedora36_btrfs_packer"
+    vm_name      = "fedora36_btrfs_packer"
+    template     = "templates/base-fedora36_btrfs"
   }
 
   provisioner "ansible" {
