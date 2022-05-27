@@ -44,12 +44,6 @@ build {
   }
 
   source "source.vsphere-clone.el" {
-    name         = "rocky_docker_packer"
-    vm_name      = "rocky_docker_packer"
-    template     = "templates/base-rocky"
-  }
-
-  source "source.vsphere-clone.el" {
     name         = "fedora35_btrfs_packer"
     vm_name      = "fedora35_btrfs_packer"
     template     = "templates/base-fedora35_btrfs"
@@ -65,16 +59,6 @@ build {
     extra_arguments = [
       "--extra-vars", "ansible_ssh_pass=${var.ssh_password}"
     ]
-  }
-
-  provisioner "ansible" {
-    only = ["vsphere-clone.rocky_docker_packer"]
-    playbook_file = "../ansible/docker.yml"
-    galaxy_file = "../ansible/docker.requirements.yml"
-    ansible_env_vars = "${local.ansible_env_vars}"
-    ansible_ssh_extra_args = "${local.ansible_ssh_extra_args}"
-    user = "root"
-    use_proxy = false
   }
 
   provisioner "shell" {
