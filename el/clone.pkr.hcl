@@ -1,12 +1,8 @@
 locals {
   ansible_env_vars = [
     "ANSIBLE_HOST_KEY_CHECKING=False",
-    "ANSIBLE_NOCOLOR=True"
-  ]
-  ansible_ssh_extra_args = [
-    "-o", "ForwardAgent=yes",
-    "-o", "ControlMaster=auto",
-    "-o", "ControlPersist=60s",
+    "ANSIBLE_NOCOLOR=True",
+    "ANSIBLE_SSH_ARGS='-o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s'"
   ]
 }
 
@@ -53,7 +49,6 @@ build {
     playbook_file = "../ansible/common.yml"
     galaxy_file = "../ansible/common.requirements.yml"
     ansible_env_vars = "${local.ansible_env_vars}"
-    ansible_ssh_extra_args = "${local.ansible_ssh_extra_args}"
     user = "root"
     use_proxy = false
     extra_arguments = [
