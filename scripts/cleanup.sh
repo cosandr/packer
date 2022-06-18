@@ -31,3 +31,7 @@ for d in "${cleanup[@]}"; do
 done
 
 find /var/log -type f -delete
+
+rm -fv /etc/sysconfig/network-scripts/ifcfg-e*
+# https://kb.vmware.com/s/article/88199
+rm -fv /etc/NetworkManager/system-connections/e*.nmconnection
