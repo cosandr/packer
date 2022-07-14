@@ -3,10 +3,7 @@ network --activate
 url --mirrorlist="https://mirrors.rockylinux.org/mirrorlist?repo=rocky-BaseOS-$releasever&arch=$basearch&country=NO,SE,DK,NL"
 repo --name=rocky_appstream --mirrorlist="https://mirrors.rockylinux.org/mirrorlist?repo=rocky-AppStream-$releasever&arch=$basearch&country=NO,SE,DK,NL"
 repo --name=rocky_extras --mirrorlist="https://mirrors.rockylinux.org/mirrorlist?repo=rocky-extras-$releasever&arch=$basearch&country=NO,SE,DK,NL"
-# repo --name=rocky_devel --mirrorlist="http://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=Devel-$releasever"
-# repo --name=rocky_ha --mirrorlist="http://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=HighAvailability-$releasever"
-# repo --name=rocky_pt --mirrorlist="http://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=PowerTools-$releasever"
-# repo --name=rocky_rs --mirrorlist="http://mirrors.rockylinux.org/mirrorlist?arch=$basearch&repo=ResilientStorage-$releasever"
+
 skipx
 lang en_US.UTF-8
 keyboard us
@@ -28,7 +25,11 @@ reboot
 %addon com_redhat_kdump --disable
 %end
 
+%{ if el_version >= 9 ~}
+%packages --inst-langs=en_US.utf8 --ignoremissing --excludedocs
+%{ else ~}
 %packages --instLangs=en_US.utf8 --ignoremissing --excludedocs
+%{ endif ~}
 @minimal-environment
 
 binutils
@@ -55,3 +56,12 @@ wget
 -iw*-firmware
 -microcode_ctl
 %end
+
+%{ if el_version >= 9 ~}
+%post --interpreter=/usr/bin/sh
+cat > /etc/ssh/sshd_config.d/90-root-pass.conf << EOF
+PasswordAuthentication yes
+PermitRootLogin yes
+EOF
+%end
+%{ endif ~}

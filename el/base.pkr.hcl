@@ -52,7 +52,9 @@ build {
     name          = "base-rocky"
     vm_name       = "base-rocky"
     guest_os_type = "centos8_64Guest"
-    cd_files      = ["./rocky8/ks.cfg"]
+    cd_content    = {
+      "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", { el_version = 8 }),
+    }
     firmware      = "efi"
     boot_command  = local.efi_command
     iso_checksum  = "file:https://download.rockylinux.org/pub/rocky/8/isos/x86_64/CHECKSUM"
@@ -63,7 +65,9 @@ build {
     name          = "base-rocky9"
     vm_name       = "base-rocky9"
     guest_os_type = "centos9_64Guest"
-    cd_files      = ["./rocky9/ks.cfg"]
+    cd_content    = {
+      "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", { el_version = 9 }),
+    }
     firmware      = "efi"
     boot_command  = local.efi_el9_command
     iso_checksum  = "file:https://download.rockylinux.org/pub/rocky/9/isos/x86_64/CHECKSUM"
