@@ -28,6 +28,12 @@ build {
   }
 
   source "source.vsphere-clone.el" {
+    name         = "rocky9_packer"
+    vm_name      = "rocky9_packer"
+    template     = "templates/base-rocky9"
+  }
+
+  source "source.vsphere-clone.el" {
     name         = "cs8_packer"
     vm_name      = "cs8_packer"
     template     = "templates/base-cs8"

@@ -60,6 +60,17 @@ build {
   }
 
   source "source.vsphere-iso.base-el" {
+    name          = "base-rocky9"
+    vm_name       = "base-rocky9"
+    guest_os_type = "centos9_64Guest"
+    cd_files      = ["./rocky9/ks.cfg"]
+    firmware      = "efi"
+    boot_command  = local.efi_el9_command
+    iso_checksum  = "file:https://download.rockylinux.org/pub/rocky/9/isos/x86_64/CHECKSUM"
+    iso_url       = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.0-x86_64-boot.iso"
+  }
+
+  source "source.vsphere-iso.base-el" {
     name          = "base-cs8"
     vm_name       = "base-cs8"
     guest_os_type = "centos8_64Guest"
