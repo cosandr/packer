@@ -2,3 +2,4 @@ output/
 packer_cache/
 */*.iso
 *.pkrvars.hcl
+!*/home.auto.pkrvars.hcl

@@ -1,5 +1,14 @@
 # Stuff
 
+vSphere vars from gopass (in root of repo)
+
+```sh
+cat <<EOF > home.auto.pkrvars.hcl
+vcenter_server = "$(gopass show -o terraform/vsphere_server)"
+vcenter_pass = "$(gopass show -o terraform/vsphere_password)"
+EOF
+```
+
 Build all base image
 
 ```sh
