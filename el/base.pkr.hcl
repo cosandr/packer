@@ -53,7 +53,7 @@ build {
     vm_name       = "base-rocky"
     guest_os_type = "centos8_64Guest"
     cd_content    = {
-      "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", { el_version = 8 }),
+      "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", { el_version = "8.6" }),
     }
     firmware      = "efi"
     boot_command  = local.efi_command
@@ -66,7 +66,7 @@ build {
     vm_name       = "base-rocky9"
     guest_os_type = "centos9_64Guest"
     cd_content    = {
-      "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", { el_version = 9 }),
+      "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", { el_version = "9.0" }),
     }
     firmware      = "efi"
     boot_command  = local.efi_el9_command

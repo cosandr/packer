@@ -1,8 +1,8 @@
 text
 network --activate
-url --mirrorlist="https://mirrors.rockylinux.org/mirrorlist?repo=rocky-BaseOS-$releasever&arch=$basearch&country=NO,SE,DK,NL"
-repo --name=rocky_appstream --mirrorlist="https://mirrors.rockylinux.org/mirrorlist?repo=rocky-AppStream-$releasever&arch=$basearch&country=NO,SE,DK,NL"
-repo --name=rocky_extras --mirrorlist="https://mirrors.rockylinux.org/mirrorlist?repo=rocky-extras-$releasever&arch=$basearch&country=NO,SE,DK,NL"
+url --mirrorlist="https://mirrors.rockylinux.org/mirrorlist?repo=rocky-BaseOS-${ el_version }&arch=$basearch&country=NO,SE,DK,NL"
+repo --name=rocky_appstream --mirrorlist="https://mirrors.rockylinux.org/mirrorlist?repo=rocky-AppStream-${ el_version }&arch=$basearch&country=NO,SE,DK,NL"
+repo --name=rocky_extras --mirrorlist="https://mirrors.rockylinux.org/mirrorlist?repo=rocky-extras-${ el_version }&arch=$basearch&country=NO,SE,DK,NL"
 
 skipx
 lang en_US.UTF-8
