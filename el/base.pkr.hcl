@@ -10,41 +10,41 @@ locals {
     "<leftCtrlOn>x<leftCtrlOff>",
   ]
   efi_el9_command = [
-      "<up>e<down><down><end><bs><bs><bs><bs><bs>",
-      "inst.ks=cdrom",
-      "<leftCtrlOn>x<leftCtrlOff>",
-    ]
+    "<up>e<down><down><end><bs><bs><bs><bs><bs>",
+    "inst.ks=cdrom",
+    "<leftCtrlOn>x<leftCtrlOff>",
+  ]
 }
 
 source "vsphere-iso" "base-el" {
-  vcenter_server           = var.vcenter_server
-  username                 = var.vcenter_user
-  password                 = var.vcenter_pass
-  insecure_connection      = true
-  datacenter               = var.vcenter_datacenter
-  cluster                  = var.vcenter_cluster
-  datastore                = var.vcenter_datastore
-  folder                   = "templates"
-  boot_wait                = "5s"
-  disk_controller_type     = ["pvscsi"]
+  vcenter_server       = var.vcenter_server
+  username             = var.vcenter_user
+  password             = var.vcenter_pass
+  insecure_connection  = true
+  datacenter           = var.vcenter_datacenter
+  cluster              = var.vcenter_cluster
+  datastore            = var.vcenter_datastore
+  folder               = "templates"
+  boot_wait            = "5s"
+  disk_controller_type = ["pvscsi"]
   storage {
-    disk_size              = 10000
-    disk_thin_provisioned  = true
-    disk_controller_index  = 0
+    disk_size             = 10000
+    disk_thin_provisioned = true
+    disk_controller_index = 0
   }
   network_adapters {
-      network = "DSwitch/VM"
-      network_card = "vmxnet3"
+    network      = "DSwitch/VM"
+    network_card = "vmxnet3"
   }
-  cd_label                 = "install_data"
-  remove_cdrom             = true
-  shutdown_command         = "shutdown -P now"
-  ssh_timeout              = "900s"
-  ssh_username             = "root"
-  ssh_password             = var.ssh_password
-  CPUs                     = 4
-  RAM                      = 4096
-  convert_to_template      = true
+  cd_label            = "install_data"
+  remove_cdrom        = true
+  shutdown_command    = "shutdown -P now"
+  ssh_timeout         = "900s"
+  ssh_username        = "root"
+  ssh_password        = var.ssh_password
+  CPUs                = 4
+  RAM                 = 4096
+  convert_to_template = true
 }
 
 build {
@@ -52,26 +52,26 @@ build {
     name          = "base-rocky"
     vm_name       = "base-rocky"
     guest_os_type = "centos8_64Guest"
-    cd_content    = {
+    cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", { el_version = "8.6" }),
     }
-    firmware      = "efi"
-    boot_command  = local.efi_command
-    iso_checksum  = "file:https://download.rockylinux.org/pub/rocky/8/isos/x86_64/CHECKSUM"
-    iso_url       = "https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.6-x86_64-minimal.iso"
+    firmware     = "efi"
+    boot_command = local.efi_command
+    iso_checksum = "file:https://download.rockylinux.org/pub/rocky/8/isos/x86_64/CHECKSUM"
+    iso_url      = "https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.6-x86_64-minimal.iso"
   }
 
   source "source.vsphere-iso.base-el" {
     name          = "base-rocky9"
     vm_name       = "base-rocky9"
     guest_os_type = "centos9_64Guest"
-    cd_content    = {
+    cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", { el_version = "9.0" }),
     }
-    firmware      = "efi"
-    boot_command  = local.efi_el9_command
-    iso_checksum  = "file:https://download.rockylinux.org/pub/rocky/9/isos/x86_64/CHECKSUM"
-    iso_url       = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.0-x86_64-boot.iso"
+    firmware     = "efi"
+    boot_command = local.efi_el9_command
+    iso_checksum = "file:https://download.rockylinux.org/pub/rocky/9/isos/x86_64/CHECKSUM"
+    iso_url      = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.0-x86_64-boot.iso"
   }
 
   source "source.vsphere-iso.base-el" {
@@ -82,8 +82,8 @@ build {
     firmware      = "efi"
     boot_command  = local.efi_command
     # http://isoredirect.centos.org/centos/8-stream/isos/x86_64/
-    iso_checksum  = "file:https://mirror.zetup.net/CentOS/8-stream/isos/x86_64/CHECKSUM"
-    iso_url       = "https://mirror.zetup.net/CentOS/8-stream/isos/x86_64/CentOS-Stream-8-x86_64-latest-boot.iso"
+    iso_checksum = "file:https://mirror.zetup.net/CentOS/8-stream/isos/x86_64/CHECKSUM"
+    iso_url      = "https://mirror.zetup.net/CentOS/8-stream/isos/x86_64/CentOS-Stream-8-x86_64-latest-boot.iso"
   }
 
   source "source.vsphere-iso.base-el" {
