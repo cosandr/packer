@@ -60,7 +60,7 @@ build {
   provisioner "ansible" {
     playbook_file    = "../ansible/common.yml"
     galaxy_file      = "../ansible/common.requirements.yml"
-    ansible_env_vars = "${local.ansible_env_vars}"
+    ansible_env_vars = local.ansible_env_vars
     user             = "root"
     use_proxy        = false
     extra_arguments = [

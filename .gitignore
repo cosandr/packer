@@ -1,5 +1,6 @@
 output/
 packer_cache/
 */*.iso
-*.pkrvars.hcl
+*.auto.pkrvars.hcl
 !*/home.auto.pkrvars.hcl
+artifacts/

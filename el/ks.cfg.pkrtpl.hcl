@@ -43,7 +43,6 @@ htop
 kernel
 net-tools
 nfs-utils
-open-vm-tools
 openssh-clients
 openssh-server
 python3
@@ -51,18 +50,25 @@ python3-libselinux
 python3-policycoreutils
 rsync
 sudo
-vim
+vim-enhanced
+virt-what
 wget
 -plymouth
 -iw*-firmware
 -microcode_ctl
 %end
 
-%{ if el_version >= 9 ~}
 %post --interpreter=/usr/bin/sh
-cat > /etc/ssh/sshd_config.d/90-root-pass.conf << EOF
+if $(virt-what | grep -q vmware); then
+  dnf install -y open-vm-tools
+elif $(virt-what | grep -q kvm); then
+  dnf install -y qemu-guest-agent
+fi
+
+if [ $(rpm -E %rhel) -ge 9 ]; then
+  cat > /etc/ssh/sshd_config.d/90-root-pass.conf << EOF
 PasswordAuthentication yes
 PermitRootLogin yes
 EOF
+fi
 %end
-%{ endif ~}

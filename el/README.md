@@ -1,4 +1,34 @@
-# Stuff
+## Libvirt
+
+Base images are built using qemu on the localhost,
+they must be copied to the default libvirt pool before building the final images.
+
+```sh
+# Build on an Archlinux host
+packer build -var-file arch.pkrvars.hcl -var-file local.pkrvars.hcl -only 'qemu*' .
+```
+
+If building clones on localhost also, run `copy-artifacts.sh` with the "-s" option.
+
+Build clones with
+
+```sh
+packer build -parallel-builds=1 -var-file arch.pkrvars.hcl -var-file local.pkrvars.hcl -only 'libvirt*' .
+```
+
+Delete temporary domains
+
+```sh
+for vm in $(virsh list --name --inactive); do [[ $vm = packer-* ]] && virsh undefine --nvram --tpm "$vm"; done
+```
+
+Copy images to theia
+
+```sh
+find /var/lib/libvirt/images -name '*_packer.qcow2' -exec sudo chmod 644 {} \; -exec rsync -vh --progress {} root@theia:{} \;
+```
+
+## VMware
 
 vSphere vars from gopass (in root of repo)
 
