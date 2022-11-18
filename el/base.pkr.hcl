@@ -53,12 +53,12 @@ build {
     vm_name       = "base-rocky"
     guest_os_type = "centos8_64Guest"
     cd_content = {
-      "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", { el_version = "8.6" }),
+      "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", { el_version = "8.7" }),
     }
     firmware     = "efi"
     boot_command = local.efi_command
     iso_checksum = "file:https://download.rockylinux.org/pub/rocky/8/isos/x86_64/CHECKSUM"
-    iso_url      = "https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.6-x86_64-minimal.iso"
+    iso_url      = "https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.7-x86_64-minimal.iso"
   }
 
   source "source.vsphere-iso.base-el" {
@@ -104,8 +104,8 @@ build {
     cd_files      = ["./alma9/ks.cfg"]
     firmware      = "efi"
     boot_command  = local.efi_el9_command
-    iso_checksum  = "file:https://almalinux.uib.no/9.0/isos/x86_64/CHECKSUM"
-    iso_url       = "https://almalinux.uib.no/9.0/isos/x86_64/AlmaLinux-9.0-x86_64-boot.iso"
+    iso_checksum  = "file:https://almalinux.uib.no/9.1/isos/x86_64/CHECKSUM"
+    iso_url       = "https://almalinux.uib.no/9.1/isos/x86_64/AlmaLinux-9.1-x86_64-boot.iso"
   }
 
   source "source.vsphere-iso.base-el" {
