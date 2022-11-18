@@ -25,8 +25,10 @@ for d in "${cleanup[@]}"; do
     btrfs scrub start -B "$d"
     btrfs balance start --full-balance "$d"
   else
-    dd if=/dev/zero of="$d/zero" bs=1M
-    rm -fv "$d/zero"
+    if ! fstrim -v "$d"; then
+      dd if=/dev/zero of="$d/zero" bs=1M
+      rm -fv "$d/zero"
+    fi
   fi
 done
 
