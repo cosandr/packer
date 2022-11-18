@@ -10,7 +10,8 @@ keyboard us
 timezone Europe/Oslo
 firewall --enabled --ssh
 selinux --enforcing
-bootloader --location=mbr
+services --disabled="kdump"
+bootloader --location=mbr --append="console=tty0 console=ttyS0,115200n8 no_timer_check crashkernel=auto"
 zerombr
 clearpart --all --initlabel
 
