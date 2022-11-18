@@ -1,6 +1,7 @@
 ---
 
-- hosts: all
+- name: Basic provisioning
+  hosts: all
   become: true
   vars:
     dnf_automatic_timer_enabled: true
@@ -12,39 +13,39 @@
     unattended_automatic_reboot: false
   pre_tasks:
     - name: Check for grub config
-      stat:
+      ansible.builtin.stat:
         path: "/etc/default/grub"
       register: __grub_conf
 
     - name: Look for grub.cfg
-      find:
+      ansible.builtin.find:
         paths: /boot/efi/EFI
         patterns: 'grub.cfg'
         recurse: true
       register: __grub_search
 
     - name: Set grub.cfg path
-      set_fact:
+      ansible.builtin.set_fact:
         grub_cfg_path: "{{ __grub_search.files[0].path }}"
       when: __grub_search.matched > 0
 
   roles:
-    - role: jnv.unattended-upgrades
+    - role: cosandr.unattended-upgrades
       when: ansible_os_family == 'Debian'
 
     - role: cosandr.dnf_automatic
       when: ansible_os_family == 'RedHat'
 
   tasks:
-    - name: Update all packages (RedHat)
-      dnf:
+    - name: Update all packages (RedHat)  # noqa package-latest
+      ansible.builtin.dnf:
         name: '*'
         state: latest
         update_cache: true
       when: ansible_os_family == 'RedHat'
 
-    - name: Update all packages (Debian)
-      apt:
+    - name: Update all packages (Debian)  # noqa package-latest
+      ansible.builtin.apt:
         name: "*"
         state: latest
         update_cache: true
@@ -53,7 +54,7 @@
       when: ansible_os_family == 'Debian'
 
     - name: Install some packages
-      package:
+      ansible.builtin.package:
         name:
           - bash-completion
           - glibc-locale-source
@@ -61,94 +62,56 @@
         state: present
 
     - name: Install grow-rootfs script
-      copy:
+      ansible.builtin.copy:
+        src: grow-rootfs.sh
         dest: /usr/bin/grow-rootfs
         owner: root
         group: root
         mode: 0755
-        content: |
-          #!/bin/bash
-          set -euo pipefail
-
-          root_part="$(findmnt -nrv -o source /)"
-          root_disk="/dev/$(lsblk -nr -o pkname "$root_part")"
-          root_partno="$(grep -Eo '[0-9]+$' <<< "$root_part")"
-          root_type="$(findmnt -nrv -o fstype /)"
-
-          if ! fdisk -l "$root_disk" 2>&1 >/dev/null | grep -q 'size mismatch'; then
-            echo "No mismatch detected"
-            exit 0
-          fi
-
-          if [[ -z $root_partno ]]; then
-            echo "Could not determine root partition number"
-            exit 1
-          fi
-
-          echo "Found disk: $root_disk"
-          echo "Found partition: $root_part"
-          echo "Found partition number: $root_partno"
-
-          growpart "$root_disk" "$root_partno"
-
-          if [[ $root_type = ext4 ]]; then
-            resize2fs "$root_part"
-          elif [[ $root_type = btrfs ]]; then
-            btrfs filesystem resize max /
-          elif [[ $root_type = xfs ]]; then
-            xfs_growfs /
-          else
-            echo "$root_type: Unknown file system, cannot expand"
-          fi
-          systemctl disable grow-rootfs.service
 
     - name: Install grow-rootfs service
-      copy:
+      ansible.builtin.copy:
+        src: grow-rootfs.service
         dest: "/etc/systemd/system/grow-rootfs.service"
         owner: root
         group: root
         mode: 0644
-        content: |
-          [Unit]
-          Description=Resize rootfs on boot
+      notify: Enable grow-rootfs
 
-          [Service]
-          Type=oneshot
-          ExecStart=/usr/bin/grow-rootfs
-
-          [Install]
-          WantedBy=local-fs.target
-      notify: enable grow-rootfs
-
-    - name: Disable grub timeout
-      lineinfile:
+    - name: Reduce grub timeout
+      ansible.builtin.lineinfile:
         dest: "/etc/default/grub"
         regexp: '^GRUB_TIMEOUT'
-        line: "GRUB_TIMEOUT=0"
+        line: "GRUB_TIMEOUT=2"
         state: present
       when: __grub_conf.stat.exists
-      notify: regenerate grub
+      notify: Regenerate grub
+
+    - name: Disable virtual terminals allocation by logind
+      ansible.builtin.lineinfile:
+        dest: '/etc/systemd/logind.conf'
+        regexp: '^#?NAutoVTs='
+        line: 'NAutoVTs=0'
+        state: present
 
     - name: Install root keys
-      authorized_key:
+      ansible.posix.authorized_key:
         user: root
         state: present
-        key: |
-          ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOg9fiCqlSj0Xm/+rA02ecxnDYecKEnhYol6WUrM29UA andrei@desktop
-          ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDCHMjI/tkb21/PtXRfj8VBsqGJn9TkP0+XDkw7LZ+5x andrei@laptop
+        key: "{{ lookup('file', 'authorized_keys') }}"
 
     - name: Set more secure root password
-      user:
+      ansible.builtin.user:
         name: root
         password: '$6$UEcjS6FuN34m0LNh$keSth27mGIKRgk4goS.SZJRJX4WlP71wRf8hsHVlRbnhA1NC3QRSPanqyUWC26SDAvZyyiaE2n1dMUSVe6VcJ1'
 
   handlers:
-    - name: enable grow-rootfs
-      systemd:
+    - name: Enable grow-rootfs
+      ansible.builtin.systemd:
         daemon_reload: true
         name: grow-rootfs.service
         enabled: true
 
-    - name: regenerate grub
-      command: "grub2-mkconfig -o {{ grub_cfg_path }}"
+    - name: Regenerate grub
+      ansible.builtin.command: "grub2-mkconfig -o {{ grub_cfg_path }}"
       when: "grub_cfg_path is defined"
