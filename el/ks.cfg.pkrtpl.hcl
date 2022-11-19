@@ -1,8 +1,7 @@
 text
 network --activate
-url --mirrorlist="https://mirrors.rockylinux.org/mirrorlist?repo=rocky-BaseOS-${ el_version }&arch=$basearch&country=NO,SE,DK,NL"
-repo --name=rocky_appstream --mirrorlist="https://mirrors.rockylinux.org/mirrorlist?repo=rocky-AppStream-${ el_version }&arch=$basearch&country=NO,SE,DK,NL"
-repo --name=rocky_extras --mirrorlist="https://mirrors.rockylinux.org/mirrorlist?repo=rocky-extras-${ el_version }&arch=$basearch&country=NO,SE,DK,NL"
+
+${ file("ks.cfg.d/repo-${repo_file}.cfg") ~}
 
 skipx
 lang en_US.UTF-8
@@ -15,7 +14,7 @@ bootloader --location=mbr --append="console=tty0 console=ttyS0,115200n8 no_timer
 zerombr
 clearpart --all --initlabel
 
-autopart --noswap --fstype=ext4 --type=plain
+${ file("ks.cfg.d/parts-${parts_file}.cfg") ~}
 
 rootpw usedDuringInstallat1on
 
@@ -26,7 +25,7 @@ reboot
 %addon com_redhat_kdump --disable
 %end
 
-%{ if el_version >= 9 ~}
+%{ if new_ks_syntax ~}
 %packages --inst-langs=en_US.utf8 --ignoremissing --excludedocs
 %{ else ~}
 %packages --instLangs=en_US.utf8 --ignoremissing --excludedocs
@@ -65,7 +64,7 @@ elif $(virt-what | grep -q kvm); then
   dnf install -y qemu-guest-agent
 fi
 
-if [ $(rpm -E %rhel) -ge 9 ]; then
+if [ $(rpm -E %rhel) -ge 9 ] || [ $(rpm -E %fedora) -ge 32 ]; then
   cat > /etc/ssh/sshd_config.d/90-root-pass.conf << EOF
 PasswordAuthentication yes
 PermitRootLogin yes

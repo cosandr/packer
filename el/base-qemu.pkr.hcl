@@ -29,7 +29,11 @@ build {
     vm_name          = "base-rocky8.qcow2"
     output_directory = "artifacts/base-rocky8"
     cd_content = {
-      "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", { el_version = "8.7" }),
+      "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
+        new_ks_syntax = false,
+        repo_file     = "rocky8",
+        parts_file    = "ext4",
+      }),
     }
     boot_command = local.efi_command
     iso_checksum = "file:https://download.rockylinux.org/pub/rocky/8/isos/x86_64/CHECKSUM"
@@ -41,7 +45,11 @@ build {
     vm_name          = "base-rocky9.qcow2"
     output_directory = "artifacts/base-rocky9"
     cd_content = {
-      "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", { el_version = "9.0" }),
+      "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
+        new_ks_syntax = true,
+        repo_file     = "rocky9",
+        parts_file    = "ext4",
+      }),
     }
     boot_command = local.efi_el9_command
     iso_checksum = "file:https://download.rockylinux.org/pub/rocky/9/isos/x86_64/CHECKSUM"
