@@ -36,8 +36,8 @@ build {
       }),
     }
     boot_command = local.efi_command
-    iso_checksum = "file:https://download.rockylinux.org/pub/rocky/8/isos/x86_64/CHECKSUM"
-    iso_url      = "https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.7-x86_64-boot.iso"
+    iso_checksum = var.rocky8_checksum
+    iso_url      = var.rocky8_iso
   }
 
   source "source.qemu.base-el" {
@@ -52,7 +52,7 @@ build {
       }),
     }
     boot_command = local.efi_el9_command
-    iso_checksum = "file:https://download.rockylinux.org/pub/rocky/9/isos/x86_64/CHECKSUM"
-    iso_url      = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.0-x86_64-boot.iso"
+    iso_checksum = var.rocky9_checksum
+    iso_url      = var.rocky9_iso
   }
 }
