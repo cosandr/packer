@@ -22,6 +22,94 @@ source "libvirt" "el" {
 }
 
 build {
+  ### Alma Linux ###
+  source "source.libvirt.el" {
+    name = "alma9_packer"
+
+    volume {
+      alias = "artifact"
+
+      pool       = "default"
+      name       = "alma9_packer.qcow2"
+      format     = "qcow2"
+      capacity   = "10G"
+      bus        = "virtio"
+      target_dev = "vda"
+
+      source {
+        type   = "cloning"
+        pool   = "default"
+        volume = "base-alma9.qcow2"
+      }
+    }
+  }
+
+  ### CentOS ###
+  source "source.libvirt.el" {
+    name = "cs8_packer"
+
+    volume {
+      alias = "artifact"
+
+      pool       = "default"
+      name       = "cs8_packer.qcow2"
+      format     = "qcow2"
+      capacity   = "10G"
+      bus        = "virtio"
+      target_dev = "vda"
+
+      source {
+        type   = "cloning"
+        pool   = "default"
+        volume = "base-cs8.qcow2"
+      }
+    }
+  }
+
+  source "source.libvirt.el" {
+    name = "cs9_packer"
+
+    volume {
+      alias = "artifact"
+
+      pool       = "default"
+      name       = "cs9_packer.qcow2"
+      format     = "qcow2"
+      capacity   = "10G"
+      bus        = "virtio"
+      target_dev = "vda"
+
+      source {
+        type   = "cloning"
+        pool   = "default"
+        volume = "base-cs9.qcow2"
+      }
+    }
+  }
+
+  ### Fedora ###
+  source "source.libvirt.el" {
+    name = "fedora37_btrfs_packer"
+
+    volume {
+      alias = "artifact"
+
+      pool       = "default"
+      name       = "fedora37_btrfs_packer.qcow2"
+      format     = "qcow2"
+      capacity   = "10G"
+      bus        = "virtio"
+      target_dev = "vda"
+
+      source {
+        type   = "cloning"
+        pool   = "default"
+        volume = "base-fedora37_btrfs.qcow2"
+      }
+    }
+  }
+
+  ### Rocky Linux ###
   source "source.libvirt.el" {
     name = "rocky8_packer"
 
