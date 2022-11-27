@@ -1,5 +1,15 @@
 ---
 
+- name: Localhost actions
+  hosts: all
+  become: false
+  gather_facts: false
+  tasks:
+    - name: Clear host SSH keys
+      delegate_to: localhost
+      ansible.builtin.command: "ssh-keygen -R {{ ansible_host }}"
+      ignore_errors: true
+
 - name: Basic provisioning
   hosts: all
   become: true
