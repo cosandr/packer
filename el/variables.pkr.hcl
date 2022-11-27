@@ -65,5 +65,5 @@ variable "rocky9_checksum" {
 }
 
 variable "rocky9_iso" {
-  default = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.0-x86_64-boot.iso"
+  default = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.1-x86_64-boot.iso"
 }
