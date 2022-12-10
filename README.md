@@ -32,7 +32,7 @@ for vm in $(virsh list --name --inactive); do [[ $vm = packer-* ]] && virsh unde
 Copy images to theia
 
 ```sh
-find /var/lib/libvirt/images -name '*_packer.qcow2' -exec sudo chmod 644 {} \; -exec rsync -vh --progress {} root@theia:{} \;
+find /var/lib/libvirt/images -name '*_packer.qcow2' -exec sudo chmod 644 {} \; -exec rsync -vhu --progress {} root@theia:{} \;
 ```
 
 ## VMware
