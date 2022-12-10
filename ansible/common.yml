@@ -46,6 +46,13 @@
     - role: cosandr.dnf_automatic
       when: ansible_os_family == 'RedHat'
 
+    - role: cosandr.firewall_config
+      vars:
+        firewall_rules: "{{ family_rules.get(ansible_os_family, []) }}"
+        family_rules:
+          Debian:
+            - port: 22
+
   tasks:
     - name: Update all packages (RedHat)  # noqa package-latest
       ansible.builtin.dnf:
