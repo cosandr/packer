@@ -1,6 +1,7 @@
 variable "vcenter_pass" {
   type      = string
   sensitive = true
+  default   = ""
 }
 
 variable "vcenter_server" { default = "vcenter.hlab.no" }
@@ -66,4 +67,13 @@ variable "rocky9_checksum" {
 
 variable "rocky9_iso" {
   default = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.1-x86_64-boot.iso"
+}
+
+# https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/
+variable "debian11_checksum" {
+  default = "file:https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS"
+}
+
+variable "debian11_iso" {
+  default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-11.5.0-amd64-netinst.iso"
 }

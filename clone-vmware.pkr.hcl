@@ -58,8 +58,8 @@ build {
   }
 
   provisioner "ansible" {
-    playbook_file    = "../ansible/common.yml"
-    galaxy_file      = "../ansible/common.requirements.yml"
+    playbook_file    = "./ansible/common.yml"
+    galaxy_file      = "./ansible/common.requirements.yml"
     ansible_env_vars = local.ansible_env_vars
     user             = "root"
     use_proxy        = false
@@ -69,6 +69,6 @@ build {
   }
 
   provisioner "shell" {
-    script = "../scripts/cleanup.sh"
+    script = "./scripts/cleanup.sh"
   }
 }

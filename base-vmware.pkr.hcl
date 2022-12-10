@@ -1,21 +1,3 @@
-locals {
-  bios_command = [
-    "<up><tab><bs><bs><bs><bs><bs>",
-    "inst.ks=cdrom:LABEL=install_data:/ks.cfg",
-    "<enter>",
-  ]
-  efi_command = [
-    "<up>e<down><down><end><bs><bs><bs><bs><bs>",
-    "inst.ks=cdrom:LABEL=install_data:/ks.cfg",
-    "<leftCtrlOn>x<leftCtrlOff>",
-  ]
-  efi_el9_command = [
-    "<up>e<down><down><end><bs><bs><bs><bs><bs>",
-    "inst.ks=cdrom",
-    "<leftCtrlOn>x<leftCtrlOff>",
-  ]
-}
-
 source "vsphere-iso" "base-el" {
   vcenter_server       = var.vcenter_server
   username             = var.vcenter_user

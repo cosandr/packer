@@ -8,9 +8,15 @@ rm -rf /usr/share/backgrounds/*
 rm -f /usr/lib/locale/locale-archive
 /usr/bin/localedef -v -c -i en_US -f UTF-8 en_US.UTF-8 &> /dev/null
 
-rpm --rebuilddb
-yum clean all
-rm -rf /var/cache/yum/*
+# RedHat
+if command -v rpm &>/dev/null; then
+  rpm --rebuilddb
+  yum clean all
+  rm -rf /var/cache/yum/*
+elif command -v apt-get &>/dev/null; then
+  apt-get clean
+  apt-get -y autoremove --purge
+fi
 
 cleanup=( /boot /boot/efi / )
 
@@ -37,3 +43,5 @@ find /var/log -type f -delete
 rm -fv /etc/sysconfig/network-scripts/ifcfg-e*
 # https://kb.vmware.com/s/article/88199
 rm -fv /etc/NetworkManager/system-connections/e*.nmconnection
+
+rm -fv /etc/machine-id /var/lib/dbus/machine-id

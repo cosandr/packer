@@ -1,4 +1,4 @@
-source "qemu" "base-el" {
+source "qemu" "base" {
   accelerator      = "kvm"
   boot_wait        = "5s"
   disk_cache       = "none"
@@ -26,7 +26,7 @@ source "qemu" "base-el" {
 
 build {
   ### Alma Linux ###
-  source "source.qemu.base-el" {
+  source "source.qemu.base" {
     name             = "base-alma9"
     vm_name          = "base-alma9.qcow2"
     output_directory = "artifacts/base-alma9"
@@ -43,7 +43,7 @@ build {
   }
 
   ### CentOS ###
-  source "source.vsphere-iso.base-el" {
+  source "source.qemu.base" {
     name             = "base-cs8"
     vm_name          = "base-cs8"
     output_directory = "artifacts/base-cs8"
@@ -59,7 +59,7 @@ build {
     iso_url      = var.cs8_iso
   }
 
-  source "source.vsphere-iso.base-el" {
+  source "source.qemu.base" {
     name             = "base-cs9"
     vm_name          = "base-cs9"
     output_directory = "artifacts/base-cs9"
@@ -76,7 +76,7 @@ build {
   }
 
   ### Fedora ###
-  source "source.qemu.base-el" {
+  source "source.qemu.base" {
     name             = "base-fedora37_btrfs"
     vm_name          = "base-fedora37_btrfs.qcow2"
     output_directory = "artifacts/base-fedora37_btrfs"
@@ -93,7 +93,7 @@ build {
   }
 
   ### Rocky Linux ###
-  source "source.qemu.base-el" {
+  source "source.qemu.base" {
     name             = "base-rocky8"
     vm_name          = "base-rocky8.qcow2"
     output_directory = "artifacts/base-rocky8"
@@ -109,7 +109,7 @@ build {
     iso_url      = var.rocky8_iso
   }
 
-  source "source.qemu.base-el" {
+  source "source.qemu.base" {
     name             = "base-rocky9"
     vm_name          = "base-rocky9.qcow2"
     output_directory = "artifacts/base-rocky9"
@@ -123,5 +123,20 @@ build {
     boot_command = local.efi_el9_command
     iso_checksum = var.rocky9_checksum
     iso_url      = var.rocky9_iso
+  }
+
+  ### Debian 11 ###
+  source "source.qemu.base" {
+    name             = "base-debian11"
+    vm_name          = "base-debian11.qcow2"
+    output_directory = "artifacts/base-debian11"
+    cd_content = {
+      "preseed.cfg" = templatefile("preseed.cfg.pkrtpl.hcl", {
+        parts_file = "regular",
+      }),
+    }
+    boot_command = local.deb_command
+    iso_checksum = var.debian11_checksum
+    iso_url      = var.debian11_iso
   }
 }

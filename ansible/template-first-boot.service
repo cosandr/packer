@@ -1,0 +1,9 @@
+[Unit]
+Description=Fixes during first boot
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/template-first-boot
+
+[Install]
+WantedBy=multi-user.target

@@ -1,4 +1,4 @@
-source "libvirt" "el" {
+source "libvirt" "vm" {
   libvirt_uri = var.libvirt_uri
   vcpu        = 2
   memory      = 2048
@@ -23,7 +23,7 @@ source "libvirt" "el" {
 
 build {
   ### Alma Linux ###
-  source "source.libvirt.el" {
+  source "source.libvirt.vm" {
     name = "alma9_packer"
 
     volume {
@@ -45,7 +45,7 @@ build {
   }
 
   ### CentOS ###
-  source "source.libvirt.el" {
+  source "source.libvirt.vm" {
     name = "cs8_packer"
 
     volume {
@@ -66,7 +66,7 @@ build {
     }
   }
 
-  source "source.libvirt.el" {
+  source "source.libvirt.vm" {
     name = "cs9_packer"
 
     volume {
@@ -88,7 +88,7 @@ build {
   }
 
   ### Fedora ###
-  source "source.libvirt.el" {
+  source "source.libvirt.vm" {
     name = "fedora37_btrfs_packer"
 
     volume {
@@ -110,7 +110,7 @@ build {
   }
 
   ### Rocky Linux ###
-  source "source.libvirt.el" {
+  source "source.libvirt.vm" {
     name = "rocky8_packer"
 
     volume {
@@ -131,7 +131,7 @@ build {
     }
   }
 
-  source "source.libvirt.el" {
+  source "source.libvirt.vm" {
     name = "rocky9_packer"
 
     volume {
@@ -152,9 +152,31 @@ build {
     }
   }
 
+  ### Debian 11 ###
+  source "source.libvirt.vm" {
+    name = "debian11_packer"
+
+    volume {
+      alias = "artifact"
+
+      pool       = "default"
+      name       = "debian11_packer.qcow2"
+      format     = "qcow2"
+      capacity   = "10G"
+      bus        = "virtio"
+      target_dev = "vda"
+
+      source {
+        type   = "cloning"
+        pool   = "default"
+        volume = "base-debian11.qcow2"
+      }
+    }
+  }
+
   provisioner "ansible" {
-    playbook_file    = "../ansible/common.yml"
-    galaxy_file      = "../ansible/common.requirements.yml"
+    playbook_file    = "./ansible/common.yml"
+    galaxy_file      = "./ansible/common.requirements.yml"
     ansible_env_vars = local.ansible_env_vars
     user             = "root"
     use_proxy        = false
@@ -164,7 +186,7 @@ build {
   }
 
   provisioner "shell" {
-    script = "../scripts/cleanup.sh"
+    script = "./scripts/cleanup.sh"
   }
 
 }

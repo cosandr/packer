@@ -59,17 +59,19 @@
         name: "*"
         state: latest
         update_cache: true
-        autoclean: true
-        autoremove: true
       when: ansible_os_family == 'Debian'
 
     - name: Install some packages
       ansible.builtin.package:
-        name:
-          - bash-completion
-          - glibc-locale-source
-          - glibc-langpack-en
+        name: "{{ common_packages + family_packages.get(ansible_os_family, []) }}"
         state: present
+      vars:
+        common_packages:
+          - bash-completion
+        family_packages:
+          RedHat:
+            - glibc-locale-source
+            - glibc-langpack-en
 
     - name: Install grow-rootfs script
       ansible.builtin.copy:
@@ -87,6 +89,23 @@
         group: root
         mode: 0644
       notify: Enable grow-rootfs
+
+    - name: Install template-first-boot script
+      ansible.builtin.copy:
+        src: template-first-boot.sh
+        dest: /usr/bin/template-first-boot
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: Install template-first-boot service
+      ansible.builtin.copy:
+        src: template-first-boot.service
+        dest: "/etc/systemd/system/template-first-boot.service"
+        owner: root
+        group: root
+        mode: 0644
+      notify: Enable template-first-boot
 
     - name: Reduce grub timeout
       ansible.builtin.lineinfile:
@@ -122,6 +141,20 @@
         name: grow-rootfs.service
         enabled: true
 
-    - name: Regenerate grub
+    - name: Enable template-first-boot
+      ansible.builtin.systemd:
+        daemon_reload: true
+        name: template-first-boot.service
+        enabled: true
+
+    - name: Regenerate grub (RedHat)
+      listen: Regenerate grub
       ansible.builtin.command: "grub2-mkconfig -o {{ grub_cfg_path }}"
-      when: "grub_cfg_path is defined"
+      when:
+        - grub_cfg_path is defined
+        - ansible_os_family == 'RedHat'
+
+    - name: Regenerate grub (Debian)
+      listen: Regenerate grub
+      ansible.builtin.command: "update-grub"
+      when: ansible_os_family == 'Debian'
