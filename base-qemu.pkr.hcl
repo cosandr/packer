@@ -7,7 +7,7 @@ source "qemu" "base" {
   disk_interface   = "virtio"
   disk_size        = "10G"
   format           = "qcow2"
-  headless         = true
+  headless         = var.qemu_headless
   cd_label         = "install_data"
   net_device       = "virtio-net"
   cpus             = 2
@@ -45,7 +45,7 @@ build {
   ### CentOS ###
   source "source.qemu.base" {
     name             = "base-cs8"
-    vm_name          = "base-cs8"
+    vm_name          = "base-cs8.qcow2"
     output_directory = "artifacts/base-cs8"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
@@ -61,7 +61,7 @@ build {
 
   source "source.qemu.base" {
     name             = "base-cs9"
-    vm_name          = "base-cs9"
+    vm_name          = "base-cs9.qcow2"
     output_directory = "artifacts/base-cs9"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {

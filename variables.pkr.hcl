@@ -14,6 +14,7 @@ variable "qemu_efi_code" { default = "/usr/share/edk2-ovmf/x64/OVMF_CODE.fd" }
 variable "qemu_efi_vars" { default = "/usr/share/edk2-ovmf/x64/OVMF_VARS.fd" }
 variable "libvirt_uri" { default = "qemu+ssh://root@theia/system" }
 variable "libvirt_net_type" { default = "managed" }
+variable "qemu_headless" { default = true }
 
 # https://mirrors.almalinux.org/
 variable "alma9_checksum" {
