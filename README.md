@@ -7,12 +7,11 @@ export PACKER_KEY_INTERVAL=25ms
 
 ## Libvirt
 
-Base images are built using qemu on the localhost,
-they must be copied to the default libvirt pool before building the final images.
+Base images are built using qemu on the localhost.
 
 ```sh
 # Build on an Archlinux host
-packer build -var-file arch.pkrvars.hcl -var-file local.pkrvars.hcl -only 'qemu*' .
+packer build -var-file arch.pkrvars.hcl -var-file local.pkrvars.hcl -only 'qemu.base*' .
 ```
 
 If building clones on localhost also, run `copy-artifacts.sh` with the "-s" option.
@@ -20,19 +19,13 @@ If building clones on localhost also, run `copy-artifacts.sh` with the "-s" opti
 Build clones with
 
 ```sh
-packer build -parallel-builds=1 -var-file arch.pkrvars.hcl -var-file local.pkrvars.hcl -only 'libvirt*' .
-```
-
-Delete temporary domains
-
-```sh
-for vm in $(virsh list --name --inactive); do [[ $vm = packer-* ]] && virsh undefine --nvram --tpm "$vm"; done
+packer build -var-file arch.pkrvars.hcl -var-file local.pkrvars.hcl -only 'qemu.*_packer' .
 ```
 
 Copy images to theia
 
 ```sh
-find /var/lib/libvirt/images -name '*_packer.qcow2' -exec sudo chmod 644 {} \; -exec rsync -vhu --progress {} root@theia:{} \;
+find ./artifacts -name '*_packer.qcow2' -exec sh -c 'rsync -vhu --progress {} root@theia:/mnt/ceph/libvirt/"$(basename {})"' \;
 ```
 
 ## VMware
