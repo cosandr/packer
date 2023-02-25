@@ -55,7 +55,7 @@ if [[ -z $TARGET && $LOCAL -eq 0 ]]; then
   exit 1
 fi
 
-find "$(pwd -P)/artifacts" -type f -name '*.qcow2' -print0 | while read -r -d $'\0' file
+find "$(pwd -P)/artifacts" -type f -name '*.*' -print0 | while read -r -d $'\0' file
 do
   filename="$(basename "$file")"
   echo "Processing $filename"

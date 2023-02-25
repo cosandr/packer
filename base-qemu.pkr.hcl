@@ -6,7 +6,7 @@ source "qemu" "base" {
   disk_discard     = "unmap"
   disk_interface   = "virtio"
   disk_size        = "10G"
-  format           = "qcow2"
+  format           = var.qemu_disk_format
   headless         = var.qemu_headless
   cd_label         = "install_data"
   net_device       = "virtio-net"
@@ -28,7 +28,7 @@ build {
   ### Alma Linux ###
   source "source.qemu.base" {
     name             = "base-alma9"
-    vm_name          = "base-alma9.qcow2"
+    vm_name          = format("base-alma9.%s", var.qemu_disk_format)
     output_directory = "artifacts/base-alma9"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
@@ -45,7 +45,7 @@ build {
   ### CentOS ###
   source "source.qemu.base" {
     name             = "base-cs8"
-    vm_name          = "base-cs8.qcow2"
+    vm_name          = format("base-cs8.%s", var.qemu_disk_format)
     output_directory = "artifacts/base-cs8"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
@@ -61,7 +61,7 @@ build {
 
   source "source.qemu.base" {
     name             = "base-cs9"
-    vm_name          = "base-cs9.qcow2"
+    vm_name          = format("base-cs9.%s", var.qemu_disk_format)
     output_directory = "artifacts/base-cs9"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
@@ -78,7 +78,7 @@ build {
   ### Fedora ###
   source "source.qemu.base" {
     name             = "base-fedora37_btrfs"
-    vm_name          = "base-fedora37_btrfs.qcow2"
+    vm_name          = format("base-fedora37_btrfs.%s", var.qemu_disk_format)
     output_directory = "artifacts/base-fedora37_btrfs"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
@@ -95,7 +95,7 @@ build {
   ### Rocky Linux ###
   source "source.qemu.base" {
     name             = "base-rocky8"
-    vm_name          = "base-rocky8.qcow2"
+    vm_name          = format("base-rocky8.%s", var.qemu_disk_format)
     output_directory = "artifacts/base-rocky8"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
@@ -111,7 +111,7 @@ build {
 
   source "source.qemu.base" {
     name             = "base-rocky9"
-    vm_name          = "base-rocky9.qcow2"
+    vm_name          = format("base-rocky9.%s", var.qemu_disk_format)
     output_directory = "artifacts/base-rocky9"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
@@ -128,7 +128,7 @@ build {
   ### Debian 11 ###
   source "source.qemu.base" {
     name             = "base-debian11"
-    vm_name          = "base-debian11.qcow2"
+    vm_name          = format("base-debian11.%s", var.qemu_disk_format)
     output_directory = "artifacts/base-debian11"
     cd_content = {
       "preseed.cfg" = templatefile("preseed.cfg.pkrtpl.hcl", {

@@ -7,7 +7,7 @@ source "qemu" "clone" {
   disk_interface   = "virtio"
   disk_size        = "10G"
   disk_image       = true
-  format           = "qcow2"
+  format           = var.qemu_disk_format
   headless         = var.qemu_headless
   net_device       = "virtio-net"
   cpus             = 2
@@ -29,55 +29,55 @@ build {
   ### Alma Linux ###
   source "source.qemu.clone" {
     name             = "alma9_packer"
-    vm_name          = "alma9_packer.qcow2"
+    vm_name          = format("alma9_packer.%s", var.qemu_disk_format)
     output_directory = "artifacts/alma9_packer"
-    iso_url          = "artifacts/base-alma9/base-alma9.qcow2"
+    iso_url          = format("artifacts/base-alma9/base-alma9.%s", var.qemu_disk_format)
   }
 
   ### CentOS ###
   source "source.qemu.clone" {
     name             = "cs8_packer"
-    vm_name          = "cs8_packer.qcow2"
+    vm_name          = format("cs8_packer.%s", var.qemu_disk_format)
     output_directory = "artifacts/cs8_packer"
-    iso_url          = "artifacts/base-cs8/base-cs8.qcow2"
+    iso_url          = format("artifacts/base-cs8/base-cs8.%s", var.qemu_disk_format)
   }
 
   source "source.qemu.clone" {
     name             = "cs9_packer"
-    vm_name          = "cs9_packer.qcow2"
+    vm_name          = format("cs9_packer.%s", var.qemu_disk_format)
     output_directory = "artifacts/cs9_packer"
-    iso_url          = "artifacts/base-cs9/base-cs9.qcow2"
+    iso_url          = format("artifacts/base-cs9/base-cs9.%s", var.qemu_disk_format)
   }
 
   ### Fedora ###
   source "source.qemu.clone" {
     name             = "fedora37_btrfs_packer"
-    vm_name          = "fedora37_btrfs_packer.qcow2"
+    vm_name          = format("fedora37_btrfs_packer.%s", var.qemu_disk_format)
     output_directory = "artifacts/fedora37_btrfs_packer"
-    iso_url          = "artifacts/base-fedora37_btrfs/base-fedora37_btrfs.qcow2"
+    iso_url          = format("artifacts/base-fedora37_btrfs/base-fedora37_btrfs.%s", var.qemu_disk_format)
   }
 
   ### Rocky Linux ###
   source "source.qemu.clone" {
     name             = "rocky8_packer"
-    vm_name          = "rocky8_packer.qcow2"
+    vm_name          = format("rocky8_packer.%s", var.qemu_disk_format)
     output_directory = "artifacts/rocky8_packer"
-    iso_url          = "artifacts/base-rocky8/base-rocky8.qcow2"
+    iso_url          = format("artifacts/base-rocky8/base-rocky8.%s", var.qemu_disk_format)
   }
 
   source "source.qemu.clone" {
     name             = "rocky9_packer"
-    vm_name          = "rocky9_packer.qcow2"
+    vm_name          = format("rocky9_packer.%s", var.qemu_disk_format)
     output_directory = "artifacts/rocky9_packer"
-    iso_url          = "artifacts/base-rocky9/base-rocky9.qcow2"
+    iso_url          = format("artifacts/base-rocky9/base-rocky9.%s", var.qemu_disk_format)
   }
 
   ### Debian 11 ###
   source "source.qemu.clone" {
     name             = "debian11_packer"
-    vm_name          = "debian11_packer.qcow2"
+    vm_name          = format("debian11_packer.%s", var.qemu_disk_format)
     output_directory = "artifacts/debian11_packer"
-    iso_url          = "artifacts/base-debian11_packer/base-debian11_packer.qcow2"
+    iso_url          = format("artifacts/base-debian11_packer/base-debian11_packer.%s", var.qemu_disk_format)
   }
 
   provisioner "ansible" {

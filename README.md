@@ -25,7 +25,7 @@ packer build -var-file arch.pkrvars.hcl -var-file local.pkrvars.hcl -only 'qemu.
 Copy images to theia
 
 ```sh
-find ./artifacts -name '*_packer.qcow2' -exec sh -c 'rsync -vhu --progress {} root@theia:/mnt/ceph/libvirt/"$(basename {})"' \;
+find ./artifacts -type f -name '*_packer.*' -exec sh -c 'rsync -vhu --progress {} root@theia:/mnt/ceph/libvirt/"$(basename {})"' \;
 ```
 
 ## VMware
