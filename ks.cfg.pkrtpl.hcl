@@ -55,6 +55,9 @@ wget
 -plymouth
 -iw*-firmware
 -microcode_ctl
+%{ if network_manager == "networkd" ~}
+-NetworkManager*
+%{ endif ~}
 %end
 
 %post --interpreter=/usr/bin/sh
@@ -70,4 +73,28 @@ PasswordAuthentication yes
 PermitRootLogin yes
 EOF
 fi
+%{ if network_manager == "networkd" ~}
+# Install EPEL if not Fedora
+if [ $(rpm -E %fedora) = "%fedora" ]; then
+  if [ $(rpm -E %rhel) -ge 9 ]; then
+    dnf config-manager --set-enabled crb
+  else
+    dnf config-manager --set-enabled powertools
+  fi
+  dnf install -y epel-release
+fi
+dnf install -y systemd-networkd systemd-resolved
+
+cat <<EOF > /etc/systemd/network/dhcp.network
+[Match]
+Type=ether
+
+[Network]
+DHCP=yes
+EOF
+
+systemctl enable systemd-networkd systemd-resolved
+
+rm -rfv /etc/NetworkManager /usr/lib/NetworkManager
+%{ endif ~}
 %end

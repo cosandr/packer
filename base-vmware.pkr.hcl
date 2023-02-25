@@ -39,6 +39,7 @@ build {
         new_ks_syntax = false,
         repo_file     = "rocky8",
         parts_file    = "ext4",
+        network_manager = "NetworkManager",
       }),
     }
     firmware     = "efi"
@@ -56,6 +57,7 @@ build {
         new_ks_syntax = true,
         repo_file     = "rocky9",
         parts_file    = "ext4",
+        network_manager = "NetworkManager",
       }),
     }
     firmware     = "efi"
@@ -73,6 +75,7 @@ build {
         new_ks_syntax = false,
         repo_file     = "cs8",
         parts_file    = "ext4",
+        network_manager = "NetworkManager",
       }),
     }
     firmware     = "efi"
@@ -91,6 +94,7 @@ build {
         new_ks_syntax = true,
         repo_file     = "cs9",
         parts_file    = "ext4",
+        network_manager = "NetworkManager",
       }),
     }
     firmware     = "efi"
@@ -108,6 +112,7 @@ build {
         new_ks_syntax = true,
         repo_file     = "alma9",
         parts_file    = "ext4",
+        network_manager = "NetworkManager",
       }),
     }
     firmware     = "efi"
@@ -125,6 +130,7 @@ build {
         new_ks_syntax = true,
         repo_file     = "fedora",
         parts_file    = "fedora-btrfs",
+        network_manager = "NetworkManager",
       }),
     }
     firmware     = "efi"

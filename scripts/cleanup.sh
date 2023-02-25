@@ -40,8 +40,9 @@ done
 
 find /var/log -type f -delete
 
-rm -fv /etc/sysconfig/network-scripts/ifcfg-e*
+[[ -d /etc/sysconfig/network-scripts ]] && rm -fv /etc/sysconfig/network-scripts/ifcfg-e*
 # https://kb.vmware.com/s/article/88199
-rm -fv /etc/NetworkManager/system-connections/e*.nmconnection
+[[ -d /etc/NetworkManager/system-connections ]] && rm -fv /etc/NetworkManager/system-connections/e*.nmconnection
+[[ -d /etc/systemd/network ]] && rm -fv /etc/systemd/network/*
 
 rm -fv /etc/machine-id /var/lib/dbus/machine-id

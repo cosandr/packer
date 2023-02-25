@@ -34,6 +34,13 @@ build {
     iso_url          = format("artifacts/base-alma9/base-alma9.%s", var.qemu_disk_format)
   }
 
+  source "source.qemu.clone" {
+    name             = "alma9_networkd_packer"
+    vm_name          = format("alma9_networkd_packer.%s", var.qemu_disk_format)
+    output_directory = "artifacts/alma9_networkd_packer"
+    iso_url          = format("artifacts/base-alma9_networkd/base-alma9_networkd.%s", var.qemu_disk_format)
+  }
+
   ### CentOS ###
   source "source.qemu.clone" {
     name             = "cs8_packer"
@@ -70,6 +77,13 @@ build {
     vm_name          = format("rocky9_packer.%s", var.qemu_disk_format)
     output_directory = "artifacts/rocky9_packer"
     iso_url          = format("artifacts/base-rocky9/base-rocky9.%s", var.qemu_disk_format)
+  }
+
+  source "source.qemu.clone" {
+    name             = "rocky9_networkd_packer"
+    vm_name          = format("rocky9_networkd_packer.%s", var.qemu_disk_format)
+    output_directory = "artifacts/rocky9_networkd_packer"
+    iso_url          = format("artifacts/base-rocky9_networkd/base-rocky9_networkd.%s", var.qemu_disk_format)
   }
 
   ### Debian 11 ###
