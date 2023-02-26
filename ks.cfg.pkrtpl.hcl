@@ -95,6 +95,8 @@ EOF
 
 systemctl enable systemd-networkd systemd-resolved
 
+ln -rsf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+
 rm -rfv /etc/NetworkManager /usr/lib/NetworkManager
 %{ endif ~}
 %end
