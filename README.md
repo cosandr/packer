@@ -7,11 +7,11 @@ export PACKER_KEY_INTERVAL=25ms
 
 ## Libvirt
 
-Base images are built using qemu on the localhost.
+Base images are built using qemu on the localhost. To build with GUI, include `-var qemu_headless=false`
 
 ```sh
 # Build on an Archlinux host
-packer build -var-file arch.pkrvars.hcl -var-file local.pkrvars.hcl -only 'qemu.base*' .
+packer build -var-file arch.pkrvars.hcl -var-file local.pkrvars.hcl -only 'qemu.base*' -except '*cs*' .
 ```
 
 If building clones on localhost also, run `copy-artifacts.sh` with the "-s" option.
@@ -19,7 +19,7 @@ If building clones on localhost also, run `copy-artifacts.sh` with the "-s" opti
 Build clones with
 
 ```sh
-packer build -var-file arch.pkrvars.hcl -var-file local.pkrvars.hcl -only 'qemu.*_packer' .
+packer build -var-file arch.pkrvars.hcl -var-file local.pkrvars.hcl -only 'qemu.*_packer' -except '*cs*' .
 ```
 
 Copy images to theia
