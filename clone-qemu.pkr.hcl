@@ -91,7 +91,7 @@ build {
     name             = "debian11_packer"
     vm_name          = format("debian11_packer.%s", var.qemu_disk_format)
     output_directory = "artifacts/debian11_packer"
-    iso_url          = format("artifacts/base-debian11_packer/base-debian11_packer.%s", var.qemu_disk_format)
+    iso_url          = format("artifacts/base-debian11/base-debian11.%s", var.qemu_disk_format)
   }
 
   provisioner "ansible" {
