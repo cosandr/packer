@@ -32,9 +32,9 @@ build {
     output_directory = "artifacts/base-alma9"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
-        new_ks_syntax = true,
-        repo_file     = "alma9",
-        parts_file    = "ext4",
+        new_ks_syntax   = true,
+        repo_file       = "alma9",
+        parts_file      = "ext4",
         network_manager = "networkd",
       }),
     }
@@ -50,9 +50,9 @@ build {
     output_directory = "artifacts/base-cs8"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
-        new_ks_syntax = false,
-        repo_file     = "cs8",
-        parts_file    = "ext4",
+        new_ks_syntax   = false,
+        repo_file       = "cs8",
+        parts_file      = "ext4",
         network_manager = "NetworkManager",
       }),
     }
@@ -67,9 +67,9 @@ build {
     output_directory = "artifacts/base-cs9"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
-        new_ks_syntax = true,
-        repo_file     = "cs9",
-        parts_file    = "ext4",
+        new_ks_syntax   = true,
+        repo_file       = "cs9",
+        parts_file      = "ext4",
         network_manager = "NetworkManager",
       }),
     }
@@ -85,9 +85,9 @@ build {
     output_directory = "artifacts/base-fedora37_btrfs"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
-        new_ks_syntax = true,
-        repo_file     = "fedora",
-        parts_file    = "fedora-btrfs",
+        new_ks_syntax   = true,
+        repo_file       = "fedora",
+        parts_file      = "fedora-btrfs",
         network_manager = "networkd",
       }),
     }
@@ -103,9 +103,9 @@ build {
     output_directory = "artifacts/base-rocky8"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
-        new_ks_syntax = false,
-        repo_file     = "rocky8",
-        parts_file    = "ext4",
+        new_ks_syntax   = false,
+        repo_file       = "rocky8",
+        parts_file      = "ext4",
         network_manager = "networkd",
       }),
     }
@@ -120,9 +120,9 @@ build {
     output_directory = "artifacts/base-rocky9"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
-        new_ks_syntax = true,
-        repo_file     = "rocky9",
-        parts_file    = "ext4",
+        new_ks_syntax   = true,
+        repo_file       = "rocky9",
+        parts_file      = "ext4",
         network_manager = "networkd",
       }),
     }
