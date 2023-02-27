@@ -83,7 +83,13 @@ if [ $(rpm -E %fedora) = "%fedora" ]; then
   fi
   dnf install -y epel-release
 fi
-dnf install -y systemd-networkd systemd-resolved
+
+# resolved is included in systemd package on EL8
+if [ $(rpm -E %rhel) -eq 8 ]; then
+  dnf install -y systemd-networkd
+else
+  dnf install -y systemd-networkd systemd-resolved
+fi
 
 cat <<EOF > /etc/systemd/network/dhcp.network
 [Match]
