@@ -11,7 +11,9 @@ Base images are built using qemu on the localhost. To build with GUI, include `-
 
 ```sh
 # Build on an Archlinux host
-packer build -var-file arch.pkrvars.hcl -var-file local.pkrvars.hcl -only 'qemu.base*' -except '*cs*' .
+packer build -var-file arch.pkrvars.hcl -only 'qemu.base*' -except '*cs*' .
+# Build on an M1 Mac, note that it is S L O W
+packer build -var-file mac.pkrvars.hcl -only 'qemu.base*' -except '*cs*' .
 ```
 
 If building clones on localhost also, run `copy-artifacts.sh` with the "-s" option.
@@ -19,7 +21,7 @@ If building clones on localhost also, run `copy-artifacts.sh` with the "-s" opti
 Build clones with
 
 ```sh
-packer build -var-file arch.pkrvars.hcl -var-file local.pkrvars.hcl -only 'qemu.*_packer' -except '*cs*' .
+packer build -var-file arch.pkrvars.hcl -only 'qemu.*_packer' -except '*cs*' .
 ```
 
 Copy images to theia

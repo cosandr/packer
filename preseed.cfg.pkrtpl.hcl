@@ -71,7 +71,7 @@ popularity-contest popularity-contest/participate boolean false
 d-i preseed/late_command string \
     in-target sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config ; \
     in-target /bin/sh -c -- 'virt-what | grep -q vmware && apt-get install -y open-vm-tools || true' ; \
-    in-target /bin/sh -c -- 'virt-what | grep -q kvm && apt-get install -y qemu-guest-agent || true' ; \
+    in-target /bin/sh -c -- 'virt-what | grep -qE "kvm|qemu" && apt-get install -y qemu-guest-agent || true' ; \
     sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT=/GRUB_CMDLINE_LINUX_DEFAULT="console=tty0 console=ttyS0,115200n8 no_timer_check"/' /target/etc/default/grub ; \
     in-target bash -c 'update-grub' ; \
     in-target apt-get purge -y ifupdown && rm -rf /etc/network ; \

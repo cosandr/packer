@@ -12,10 +12,12 @@ variable "vcenter_datastore" { default = "TrueNAS-VM" }
 variable "ssh_password" { default = "usedDuringInstallat1on" }
 variable "qemu_efi_code" { default = "/usr/share/edk2-ovmf/x64/OVMF_CODE.fd" }
 variable "qemu_efi_vars" { default = "/usr/share/edk2-ovmf/x64/OVMF_VARS.fd" }
-variable "libvirt_uri" { default = "qemu+ssh://root@theia/system" }
-variable "libvirt_net_type" { default = "managed" }
 variable "qemu_headless" { default = true }
 variable "qemu_disk_format" { default = "raw" }
+variable "qemu_boot_wait" { default = "5s" }
+variable "qemu_display" { default = null }
+variable "qemu_accelerator" { default = "kvm" }
+variable "qemu_cpu_model" { default = "host" }
 
 # https://mirrors.almalinux.org/
 variable "alma9_checksum" {

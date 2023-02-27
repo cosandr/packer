@@ -63,7 +63,7 @@ wget
 %post --interpreter=/usr/bin/sh
 if $(virt-what | grep -q vmware); then
   dnf install -y open-vm-tools
-elif $(virt-what | grep -q kvm); then
+elif $(virt-what | grep -qE 'kvm|qemu'); then
   dnf install -y qemu-guest-agent
 fi
 

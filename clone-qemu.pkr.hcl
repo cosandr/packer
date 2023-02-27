@@ -1,20 +1,18 @@
 source "qemu" "clone" {
-  accelerator      = "kvm"
-  boot_wait        = "5s"
-  disk_cache       = "none"
-  disk_compression = true
-  disk_discard     = "unmap"
-  disk_interface   = "virtio"
-  disk_size        = "10G"
-  disk_image       = true
-  format           = var.qemu_disk_format
-  headless         = var.qemu_headless
-  net_device       = "virtio-net"
-  cpus             = 2
-  memory           = 2048
-  qemuargs = [
-    ["-cpu", "host"],
-  ]
+  accelerator       = var.qemu_accelerator
+  display           = var.qemu_display
+  disk_cache        = "none"
+  disk_compression  = true
+  disk_discard      = "unmap"
+  disk_interface    = "virtio"
+  disk_size         = "10G"
+  disk_image        = true
+  format            = var.qemu_disk_format
+  headless          = var.qemu_headless
+  net_device        = "virtio-net"
+  cpus              = 2
+  cpu_model         = var.qemu_cpu_model
+  memory            = 2048
   machine_type      = "q35"
   shutdown_command  = "shutdown -P now"
   ssh_timeout       = "20m"
