@@ -6,7 +6,7 @@ root_disk="/dev/$(lsblk -nr -o pkname "$root_part")"
 root_partno="$(grep -Eo '[0-9]+$' <<< "$root_part")"
 root_type="$(findmnt -nrv -o fstype /)"
 
-if ! fdisk -l "$root_disk" 2>&1 >/dev/null | grep -q 'size mismatch'; then
+if [[ $(fdisk -l "$root_disk" 2>&1) != *"size mismatch"* ]]; then
   echo "No mismatch detected"
   exit 0
 fi
