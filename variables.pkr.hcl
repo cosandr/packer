@@ -81,3 +81,11 @@ variable "debian11_checksum" {
 variable "debian11_iso" {
   default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-11.7.0-amd64-netinst.iso"
 }
+
+variable "debian12_checksum" {
+  default = "file:https://cdimage.debian.org/cdimage/bookworm_di_rc2/amd64/iso-cd/SHA256SUMS"
+}
+
+variable "debian12_iso" {
+  default = "https://cdimage.debian.org/cdimage/bookworm_di_rc2/amd64/iso-cd/debian-bookworm-DI-rc2-amd64-netinst.iso"
+}

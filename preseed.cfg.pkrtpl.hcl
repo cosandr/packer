@@ -76,6 +76,7 @@ d-i preseed/late_command string \
     in-target bash -c 'update-grub' ; \
     in-target apt-get purge -y ifupdown && rm -rf /etc/network ; \
     echo -e "[Match]\nType=ether\n\n[Network]\nDHCP=yes\n" > /target/etc/systemd/network/dhcp.network ; \
+    in-target /bin/sh -c -- 'command -v resolvectl || apt-get install -y systemd-resolved' ; \
     in-target systemctl enable systemd-networkd systemd-resolved ; \
     ln -sf /run/systemd/resolve/stub-resolv.conf /target/etc/resolv.conf ;
 
