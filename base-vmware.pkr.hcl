@@ -122,8 +122,8 @@ build {
   }
 
   source "source.vsphere-iso.base-el" {
-    name          = "base-fedora37_btrfs"
-    vm_name       = "base-fedora37_btrfs"
+    name          = "base-fedora38_btrfs"
+    vm_name       = "base-fedora38_btrfs"
     guest_os_type = "fedora64Guest"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
