@@ -79,5 +79,5 @@ variable "debian11_checksum" {
 }
 
 variable "debian11_iso" {
-  default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-11.6.0-amd64-netinst.iso"
+  default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-11.7.0-amd64-netinst.iso"
 }
