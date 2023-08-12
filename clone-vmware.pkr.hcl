@@ -1,11 +1,3 @@
-locals {
-  ansible_env_vars = [
-    "ANSIBLE_HOST_KEY_CHECKING=False",
-    "ANSIBLE_NOCOLOR=True",
-    "ANSIBLE_SSH_ARGS='-o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s'"
-  ]
-}
-
 source "vsphere-clone" "el" {
   vcenter_server      = var.vcenter_server
   username            = var.vcenter_user

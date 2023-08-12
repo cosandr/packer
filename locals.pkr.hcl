@@ -1,4 +1,9 @@
 locals {
+  ansible_env_vars = [
+    "ANSIBLE_HOST_KEY_CHECKING=False",
+    "ANSIBLE_NOCOLOR=True",
+    # "ANSIBLE_SSH_ARGS='-o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s'"
+  ]
   bios_command = [
     "<up><tab><bs><bs><bs><bs><bs>",
     "inst.ks=cdrom:LABEL=install_data:/ks.cfg",
