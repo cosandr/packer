@@ -159,18 +159,4 @@ build {
     iso_checksum = var.debian12_checksum
     iso_url      = var.debian12_iso
   }
-
-  source "source.qemu.base" {
-    name             = "base-debian12-lvm"
-    vm_name          = format("base-debian12-lvm.%s", var.qemu_disk_format)
-    output_directory = "artifacts/base-debian12-lvm"
-    cd_content = {
-      "preseed.cfg" = templatefile("preseed.cfg.pkrtpl.hcl", {
-        parts_file = "lvm",
-      }),
-    }
-    boot_command = local.deb_command
-    iso_checksum = var.debian12_checksum
-    iso_url      = var.debian12_iso
-  }
 }

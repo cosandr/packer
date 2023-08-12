@@ -78,6 +78,14 @@ build {
     iso_url          = format("artifacts/base-debian11/base-debian11.%s", var.qemu_disk_format)
   }
 
+  ### Debian 12 ###
+  source "source.qemu.clone" {
+    name             = "debian12_packer"
+    vm_name          = format("debian12_packer.%s", var.qemu_disk_format)
+    output_directory = "artifacts/debian12_packer"
+    iso_url          = format("artifacts/base-debian12/base-debian12.%s", var.qemu_disk_format)
+  }
+
   provisioner "ansible" {
     playbook_file    = "./ansible/common.yml"
     galaxy_file      = "./ansible/common.requirements.yml"
