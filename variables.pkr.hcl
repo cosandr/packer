@@ -21,11 +21,11 @@ variable "qemu_cpu_model" { default = "host" }
 
 # https://mirrors.almalinux.org/
 variable "alma9_checksum" {
-  default = "file:https://almalinux.uib.no/9.1/isos/x86_64/CHECKSUM"
+  default = "file:https://almalinux.uib.no/9.2/isos/x86_64/CHECKSUM"
 }
 
 variable "alma9_iso" {
-  default = "https://almalinux.uib.no/9.1/isos/x86_64/AlmaLinux-9.1-x86_64-boot.iso"
+  default = "https://almalinux.uib.no/9.2/isos/x86_64/AlmaLinux-9.2-x86_64-boot.iso"
 }
 
 # http://isoredirect.centos.org/centos/8-stream/isos/x86_64/
@@ -62,7 +62,7 @@ variable "rocky8_checksum" {
 }
 
 variable "rocky8_iso" {
-  default = "https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.7-x86_64-boot.iso"
+  default = "https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.8-x86_64-boot.iso"
 }
 
 variable "rocky9_checksum" {
@@ -70,22 +70,21 @@ variable "rocky9_checksum" {
 }
 
 variable "rocky9_iso" {
-  default = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.1-x86_64-boot.iso"
+  default = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.2-x86_64-boot.iso"
 }
 
-# https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/
 variable "debian11_checksum" {
-  default = "file:https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS"
+  default = "file:https://cdimage.debian.org/cdimage/archive/11.7.0/amd64/iso-cd/SHA256SUMS"
 }
 
 variable "debian11_iso" {
-  default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-11.7.0-amd64-netinst.iso"
+  default = "https://cdimage.debian.org/cdimage/archive/11.7.0/amd64/iso-cd/debian-11.7.0-amd64-netinst.iso"
 }
 
 variable "debian12_checksum" {
-  default = "file:https://cdimage.debian.org/cdimage/bookworm_di_rc2/amd64/iso-cd/SHA256SUMS"
+  default = "file:https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS"
 }
 
 variable "debian12_iso" {
-  default = "https://cdimage.debian.org/cdimage/bookworm_di_rc2/amd64/iso-cd/debian-bookworm-DI-rc2-amd64-netinst.iso"
+  default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.1.0-amd64-netinst.iso"
 }
