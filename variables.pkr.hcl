@@ -48,12 +48,12 @@ variable "cs9_iso" {
 
 # https://getfedora.org/security/
 variable "fedora_checksum" {
-  default = "file:https://download.fedoraproject.org/pub/fedora/linux/releases/38/Server/x86_64/iso/Fedora-Server-38-1.6-x86_64-CHECKSUM"
+  default = "file:https://download.fedoraproject.org/pub/fedora/linux/releases/39/Server/x86_64/iso/Fedora-Server-39-1.5-x86_64-CHECKSUM"
 }
 
 # https://getfedora.org/en/server/download/
 variable "fedora_iso" {
-  default = "https://download.fedoraproject.org/pub/fedora/linux/releases/38/Server/x86_64/iso/Fedora-Server-netinst-x86_64-38-1.6.iso"
+  default = "https://download.fedoraproject.org/pub/fedora/linux/releases/39/Server/x86_64/iso/Fedora-Server-netinst-x86_64-39-1.5.iso"
 }
 
 # https://rockylinux.org/download
@@ -74,11 +74,11 @@ variable "rocky9_iso" {
 }
 
 variable "debian11_checksum" {
-  default = "file:https://cdimage.debian.org/cdimage/archive/11.7.0/amd64/iso-cd/SHA256SUMS"
+  default = "file:https://cdimage.debian.org/cdimage/archive/11.8.0/amd64/iso-cd/SHA256SUMS"
 }
 
 variable "debian11_iso" {
-  default = "https://cdimage.debian.org/cdimage/archive/11.7.0/amd64/iso-cd/debian-11.7.0-amd64-netinst.iso"
+  default = "https://cdimage.debian.org/cdimage/archive/11.8.0/amd64/iso-cd/debian-11.8.0-amd64-netinst.iso"
 }
 
 variable "debian12_checksum" {
@@ -86,5 +86,5 @@ variable "debian12_checksum" {
 }
 
 variable "debian12_iso" {
-  default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.1.0-amd64-netinst.iso"
+  default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.2.0-amd64-netinst.iso"
 }

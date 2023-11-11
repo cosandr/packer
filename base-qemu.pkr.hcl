@@ -79,9 +79,9 @@ build {
 
   ### Fedora ###
   source "source.qemu.base" {
-    name             = "base-fedora38_btrfs"
-    vm_name          = format("base-fedora38_btrfs.%s", var.qemu_disk_format)
-    output_directory = "artifacts/base-fedora38_btrfs"
+    name             = "base-fedora39_btrfs"
+    vm_name          = format("base-fedora39_btrfs.%s", var.qemu_disk_format)
+    output_directory = "artifacts/base-fedora39_btrfs"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
         new_ks_syntax   = true,
