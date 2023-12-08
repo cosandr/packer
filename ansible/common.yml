@@ -46,6 +46,11 @@
     - role: cosandr.dnf_automatic
       when: ansible_os_family == 'RedHat'
 
+    - role: cosandr.epel
+      when:
+        - "'intelgpu' in source_name"
+        - ansible_os_family == 'RedHat'
+
     - role: cosandr.firewall_config
       vars:
         firewall_rules: "{{ family_rules.get(ansible_os_family, []) }}"
@@ -140,6 +145,51 @@
       ansible.builtin.user:
         name: root
         password: '$6$UEcjS6FuN34m0LNh$keSth27mGIKRgk4goS.SZJRJX4WlP71wRf8hsHVlRbnhA1NC3QRSPanqyUWC26SDAvZyyiaE2n1dMUSVe6VcJ1'
+
+    # Cannot use -*firmware in kickstart because kernel-core recommends linux-firmware causing Anaconda to fail.
+    # Keep linux-firmware for GPU builds, removing it causes (appears to work however)
+    # Direct firmware load for i915/kbl_dmc_ver1_04.bin failed with error -2
+    # [drm] Failed to load DMC firmware i915/kbl_dmc_ver1_04.bin. Disabling runtime power management.
+    # [drm] DMC firmware homepage: https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/i915
+    - name: Remove firmwares
+      ansible.builtin.dnf:
+        name: "*firmware"
+        state: absent
+      when:
+        - ansible_os_family == 'RedHat'
+        - "'intelgpu' not in source_name"
+
+    - name: Setup Intel GPUs
+      when:
+        - "'intelgpu' in source_name"
+        # TODO: Debian support
+        - ansible_os_family == 'RedHat'
+      block:
+        - name: Install RPMFusion (Fedora)
+          ansible.builtin.dnf:
+            state: present
+            name:
+              - "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_version }}.noarch.rpm"
+              - "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_version }}.noarch.rpm"
+          when: ansible_distribution == 'Fedora'
+
+        - name: Configure openh264 library
+          ansible.builtin.command: dnf config-manager --enable fedora-cisco-openh264
+          when: ansible_distribution == 'Fedora'
+
+        - name: Install RPMFusion (RHEL)
+          ansible.builtin.dnf:
+            state: present
+            disable_gpg_check: true
+            name:
+              - "https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
+              - "https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-{{ ansible_distribution_major_version }}.noarch.rpm"
+          when: ansible_distribution != 'Fedora'
+
+        - name: Install intel-media-driver
+          ansible.builtin.dnf:
+            name: intel-media-driver
+            state: present
 
   handlers:
     - name: Enable grow-rootfs

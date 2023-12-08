@@ -1,6 +1,7 @@
 BUILDS			= alma9 fedora39_btrfs rocky8 rocky9 debian11 debian12
 BUILDS_BASE		= $(addprefix base-, $(BUILDS))
-BUILDS_CLONE 	= $(addsuffix _packer, $(BUILDS))
+BUILDS_CLONE 	= $(BUILDS) rocky9_intelgpu
+BUILDS_CLONE	:= $(addprefix clone-, $(BUILDS_CLONE))
 REMOTE_DIR		= /var/lib/libvirt/images
 
 export PACKER_KEY_INTERVAL=25ms
@@ -17,18 +18,22 @@ endif
 
 info:
 	@echo "Builds: $(BUILDS)"
-	@echo "Base images: $(BUILDS_BASE)"
-	@echo "Clone images: $(BUILDS_CLONE)"
+	@echo "Base targets: $(BUILDS_BASE)"
+	@echo "Clone targets: $(BUILDS_CLONE)"
+
+clean: clean-base clean-clone
 
 clean-base:
-	rm -rf artifacts/base-*
-
-clean-clone:
-	rm -rf artifacts/*_packer
-clean: clean-base clean-clone
+	rm -rfv artifacts/base-*
 
 clean-base-%:
 	rm -rfv "artifacts/base-$*"
+
+clean-clone:
+	rm -rfv artifacts/*_packer
+
+clean-clone-%:
+	rm -rfv "artifacts/$*_packer"
 
 base: $(BUILDS_BASE)
 

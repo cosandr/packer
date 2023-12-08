@@ -9,6 +9,11 @@ roles:
     src: https://github.com/cosandr/ansible-role-unattended-upgrades.git
     scm: git
 
+  - name: cosandr.epel
+    src: https://github.com/cosandr/ansible-role-epel.git
+    scm: git
+    version: v1.0.0
+
   - name: cosandr.firewall_config
     src: https://github.com/cosandr/ansible-role-firewall-config.git
     scm: git

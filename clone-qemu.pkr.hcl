@@ -70,6 +70,13 @@ build {
     iso_url          = format("artifacts/base-rocky9/base-rocky9.%s", var.qemu_disk_format)
   }
 
+  source "source.qemu.clone" {
+    name             = "rocky9_intelgpu_packer"
+    vm_name          = format("rocky9_intelgpu_packer.%s", var.qemu_disk_format)
+    output_directory = "artifacts/rocky9_intelgpu_packer"
+    iso_url          = format("artifacts/base-rocky9/base-rocky9.%s", var.qemu_disk_format)
+  }
+
   ### Debian 11 ###
   source "source.qemu.clone" {
     name             = "debian11_packer"
@@ -90,10 +97,16 @@ build {
     playbook_file    = "./ansible/common.yml"
     galaxy_file      = "./ansible/common.requirements.yml"
     ansible_env_vars = local.ansible_env_vars
-    user             = "root"
-    use_proxy        = false
+    ansible_ssh_extra_args = [
+      "-o", "UserKnownHostsFile=/dev/null",
+      "-o", "StrictHostKeyChecking=no",
+    ]
+    # keep_inventory_file = true
+    user      = "root"
+    use_proxy = false
     extra_arguments = [
-      "--extra-vars", "ansible_ssh_pass=${var.ssh_password}"
+      "--extra-vars", "ansible_ssh_pass=${var.ssh_password}",
+      "--extra-vars", "source_name=${source.name}",
     ]
   }
 
