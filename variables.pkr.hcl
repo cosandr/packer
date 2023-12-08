@@ -21,11 +21,12 @@ variable "qemu_cpu_model" { default = "host" }
 
 # https://mirrors.almalinux.org/
 variable "alma9_checksum" {
-  default = "file:https://almalinux.uib.no/9.2/isos/x86_64/CHECKSUM"
+  default = "file:https://almalinux.uib.no/9.3/isos/x86_64/CHECKSUM"
 }
 
+# Need to update repo-alma9.cfg too
 variable "alma9_iso" {
-  default = "https://almalinux.uib.no/9.2/isos/x86_64/AlmaLinux-9.2-x86_64-boot.iso"
+  default = "https://almalinux.uib.no/9.3/isos/x86_64/AlmaLinux-9.3-x86_64-boot.iso"
 }
 
 # http://isoredirect.centos.org/centos/8-stream/isos/x86_64/
@@ -61,16 +62,18 @@ variable "rocky8_checksum" {
   default = "file:https://download.rockylinux.org/pub/rocky/8/isos/x86_64/CHECKSUM"
 }
 
+# Need to update repo-rocky8.cfg too
 variable "rocky8_iso" {
-  default = "https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.8-x86_64-boot.iso"
+  default = "https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.9-x86_64-boot.iso"
 }
 
 variable "rocky9_checksum" {
   default = "file:https://download.rockylinux.org/pub/rocky/9/isos/x86_64/CHECKSUM"
 }
 
+# Need to update repo-rocky9.cfg too
 variable "rocky9_iso" {
-  default = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.2-x86_64-boot.iso"
+  default = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.3-x86_64-boot.iso"
 }
 
 variable "debian11_checksum" {
@@ -82,9 +85,9 @@ variable "debian11_iso" {
 }
 
 variable "debian12_checksum" {
-  default = "file:https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS"
+  default = "file:https://cdimage.debian.org/cdimage/release/12.2.0/amd64/iso-cd/SHA256SUMS"
 }
 
 variable "debian12_iso" {
-  default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.2.0-amd64-netinst.iso"
+  default = "https://cdimage.debian.org/cdimage/release/12.2.0/amd64/iso-cd/debian-12.2.0-amd64-netinst.iso"
 }
