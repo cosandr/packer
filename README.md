@@ -30,43 +30,6 @@ Copy images to theia
 find ./artifacts -type f -name '*_packer.*' -exec sh -c 'rsync -zvhu --progress {} root@theia:/mnt/ceph/libvirt/"$(basename {})"' \;
 ```
 
-## VMware
-
-vSphere vars from gopass (in root of repo)
-
-```sh
-cat <<EOF > home.auto.pkrvars.hcl
-vcenter_server = "$(gopass show -o terraform/vsphere_server)"
-vcenter_pass = "$(gopass show -o terraform/vsphere_password)"
-EOF
-```
-
-Build all base image
-
-```sh
-packer build -only '*base*' .
-```
-
-Build just one OS base image
-
-```sh
-packer build -only '*base*rocky*' .
-packer build -only '*base*cs9*' .
-```
-
-Build final images (*MUST* build base prior, as well as manually move them into `/templates`)
-
-```sh
-packer build -only '*clone*' .
-```
-
-Build one final image
-
-```sh
-packer build -only '*clone*rocky*' .
-packer build -only '*clone*cs9*' .
-```
-
 Force install galaxy requirements
 
 ```sh
