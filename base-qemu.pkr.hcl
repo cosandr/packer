@@ -92,21 +92,6 @@ build {
     iso_url      = var.rocky9_iso
   }
 
-  ### Debian 11 ###
-  source "source.qemu.base" {
-    name             = "base-debian11"
-    vm_name          = format("base-debian11.%s", var.qemu_disk_format)
-    output_directory = "artifacts/base-debian11"
-    cd_content = {
-      "preseed.cfg" = templatefile("preseed.cfg.pkrtpl.hcl", {
-        parts_file = "regular",
-      }),
-    }
-    boot_command = local.deb_command
-    iso_checksum = var.debian11_checksum
-    iso_url      = var.debian11_iso
-  }
-
   ### Debian 12 ###
   source "source.qemu.base" {
     name             = "base-debian12"

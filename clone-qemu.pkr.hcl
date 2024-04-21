@@ -63,14 +63,6 @@ build {
     iso_url          = format("artifacts/base-rocky9/base-rocky9.%s", var.qemu_disk_format)
   }
 
-  ### Debian 11 ###
-  source "source.qemu.clone" {
-    name             = "debian11_packer"
-    vm_name          = format("debian11_packer.%s", var.qemu_disk_format)
-    output_directory = "artifacts/debian11_packer"
-    iso_url          = format("artifacts/base-debian11/base-debian11.%s", var.qemu_disk_format)
-  }
-
   ### Debian 12 ###
   source "source.qemu.clone" {
     name             = "debian12_packer"

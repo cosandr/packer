@@ -57,14 +57,6 @@ variable "rocky9_iso" {
   default = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.3-x86_64-boot.iso"
 }
 
-variable "debian11_checksum" {
-  default = "file:https://cdimage.debian.org/cdimage/archive/11.8.0/amd64/iso-cd/SHA256SUMS"
-}
-
-variable "debian11_iso" {
-  default = "https://cdimage.debian.org/cdimage/archive/11.8.0/amd64/iso-cd/debian-11.8.0-amd64-netinst.iso"
-}
-
 variable "debian12_checksum" {
   default = "file:https://cdimage.debian.org/debian-cd/12.5.0/amd64/iso-cd/SHA256SUMS"
 }
