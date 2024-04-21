@@ -85,9 +85,9 @@ variable "debian11_iso" {
 }
 
 variable "debian12_checksum" {
-  default = "file:https://cdimage.debian.org/cdimage/release/12.2.0/amd64/iso-cd/SHA256SUMS"
+  default = "file:https://cdimage.debian.org/debian-cd/12.5.0/amd64/iso-cd/SHA256SUMS"
 }
 
 variable "debian12_iso" {
-  default = "https://cdimage.debian.org/cdimage/release/12.2.0/amd64/iso-cd/debian-12.2.0-amd64-netinst.iso"
+  default = "https://cdimage.debian.org/debian-cd/12.5.0/amd64/iso-cd/debian-12.5.0-amd64-netinst.iso"
 }
