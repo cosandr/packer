@@ -31,30 +31,11 @@ source "vsphere-iso" "base-el" {
 
 build {
   source "source.vsphere-iso.base-el" {
-    name          = "base-rocky"
-    vm_name       = "base-rocky"
-    guest_os_type = "centos8_64Guest"
-    cd_content = {
-      "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
-        new_ks_syntax   = false,
-        repo_file       = "rocky8",
-        parts_file      = "ext4",
-        network_manager = "NetworkManager",
-      }),
-    }
-    firmware     = "efi"
-    boot_command = local.efi_command
-    iso_checksum = var.rocky8_checksum
-    iso_url      = var.rocky8_iso
-  }
-
-  source "source.vsphere-iso.base-el" {
     name          = "base-rocky9"
     vm_name       = "base-rocky9"
     guest_os_type = "centos9_64Guest"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
-        new_ks_syntax   = true,
         repo_file       = "rocky9",
         parts_file      = "ext4",
         network_manager = "NetworkManager",
@@ -67,31 +48,11 @@ build {
   }
 
   source "source.vsphere-iso.base-el" {
-    name          = "base-cs8"
-    vm_name       = "base-cs8"
-    guest_os_type = "centos8_64Guest"
-    cd_content = {
-      "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
-        new_ks_syntax   = false,
-        repo_file       = "cs8",
-        parts_file      = "ext4",
-        network_manager = "NetworkManager",
-      }),
-    }
-    firmware     = "efi"
-    boot_command = local.efi_command
-    # http://isoredirect.centos.org/centos/8-stream/isos/x86_64/
-    iso_checksum = var.cs8_checksum
-    iso_url      = var.cs8_iso
-  }
-
-  source "source.vsphere-iso.base-el" {
     name          = "base-cs9"
     vm_name       = "base-cs9"
     guest_os_type = "centos9_64Guest"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
-        new_ks_syntax   = true,
         repo_file       = "cs9",
         parts_file      = "ext4",
         network_manager = "NetworkManager",
@@ -109,7 +70,6 @@ build {
     guest_os_type = "centos9_64Guest"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
-        new_ks_syntax   = true,
         repo_file       = "alma9",
         parts_file      = "ext4",
         network_manager = "NetworkManager",
@@ -127,7 +87,6 @@ build {
     guest_os_type = "fedora64Guest"
     cd_content = {
       "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
-        new_ks_syntax   = true,
         repo_file       = "fedora",
         parts_file      = "fedora-btrfs",
         network_manager = "NetworkManager",

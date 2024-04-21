@@ -4,16 +4,6 @@ locals {
     "ANSIBLE_NOCOLOR=True",
     # "ANSIBLE_SSH_ARGS='-o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s'"
   ]
-  bios_command = [
-    "<up><tab><bs><bs><bs><bs><bs>",
-    "inst.ks=cdrom:LABEL=install_data:/ks.cfg",
-    "<enter>",
-  ]
-  efi_command = [
-    "<up>e<down><down><end><bs><bs><bs><bs><bs>",
-    "inst.ks=cdrom:LABEL=install_data:/ks.cfg",
-    "<leftCtrlOn>x<leftCtrlOff>",
-  ]
   efi_el9_command = [
     "<up>e<down><down><end><bs><bs><bs><bs><bs>",
     "inst.ks=cdrom",

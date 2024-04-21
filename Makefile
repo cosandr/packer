@@ -1,4 +1,4 @@
-BUILDS			= alma9 fedora39_btrfs rocky8 rocky9 debian11 debian12
+BUILDS			= alma9 fedora39_btrfs rocky9 debian11 debian12
 BUILDS_BASE		= $(addprefix base-, $(BUILDS))
 BUILDS_CLONE 	= $(BUILDS) rocky9_intelgpu
 BUILDS_CLONE	:= $(addprefix clone-, $(BUILDS_CLONE))

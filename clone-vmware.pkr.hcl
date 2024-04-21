@@ -26,12 +26,6 @@ build {
   }
 
   source "source.vsphere-clone.el" {
-    name     = "cs8_packer"
-    vm_name  = "cs8_packer"
-    template = "templates/base-cs8"
-  }
-
-  source "source.vsphere-clone.el" {
     name     = "cs9_packer"
     vm_name  = "cs9_packer"
     template = "templates/base-cs9"

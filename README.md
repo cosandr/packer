@@ -51,7 +51,6 @@ Build just one OS base image
 
 ```sh
 packer build -only '*base*rocky*' .
-packer build -only '*base*cs8*' .
 packer build -only '*base*cs9*' .
 ```
 
@@ -65,7 +64,6 @@ Build one final image
 
 ```sh
 packer build -only '*clone*rocky*' .
-packer build -only '*clone*cs8*' .
 packer build -only '*clone*cs9*' .
 ```
 

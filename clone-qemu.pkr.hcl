@@ -34,13 +34,6 @@ build {
 
   ### CentOS ###
   source "source.qemu.clone" {
-    name             = "cs8_packer"
-    vm_name          = format("cs8_packer.%s", var.qemu_disk_format)
-    output_directory = "artifacts/cs8_packer"
-    iso_url          = format("artifacts/base-cs8/base-cs8.%s", var.qemu_disk_format)
-  }
-
-  source "source.qemu.clone" {
     name             = "cs9_packer"
     vm_name          = format("cs9_packer.%s", var.qemu_disk_format)
     output_directory = "artifacts/cs9_packer"
@@ -56,13 +49,6 @@ build {
   }
 
   ### Rocky Linux ###
-  source "source.qemu.clone" {
-    name             = "rocky8_packer"
-    vm_name          = format("rocky8_packer.%s", var.qemu_disk_format)
-    output_directory = "artifacts/rocky8_packer"
-    iso_url          = format("artifacts/base-rocky8/base-rocky8.%s", var.qemu_disk_format)
-  }
-
   source "source.qemu.clone" {
     name             = "rocky9_packer"
     vm_name          = format("rocky9_packer.%s", var.qemu_disk_format)

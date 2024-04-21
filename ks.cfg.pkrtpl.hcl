@@ -25,11 +25,7 @@ reboot
 %addon com_redhat_kdump --disable
 %end
 
-%{ if new_ks_syntax ~}
 %packages --inst-langs=en_US.utf8 --ignoremissing --excludedocs
-%{ else ~}
-%packages --instLangs=en_US.utf8 --ignoremissing --excludedocs
-%{ endif ~}
 @minimal-environment
 
 binutils
@@ -76,20 +72,11 @@ fi
 %{ if network_manager == "networkd" ~}
 # Install EPEL if not Fedora
 if [ $(rpm -E %fedora) = "%fedora" ]; then
-  if [ $(rpm -E %rhel) -ge 9 ]; then
-    dnf config-manager --set-enabled crb
-  else
-    dnf config-manager --set-enabled powertools
-  fi
+  dnf config-manager --set-enabled crb
   dnf install -y epel-release
 fi
 
-# resolved is included in systemd package on EL8
-if [ $(rpm -E %rhel) -eq 8 ]; then
-  dnf install -y systemd-networkd
-else
-  dnf install -y systemd-networkd systemd-resolved
-fi
+dnf install -y systemd-networkd systemd-resolved
 
 cat <<EOF > /etc/systemd/network/dhcp.network
 [Match]
