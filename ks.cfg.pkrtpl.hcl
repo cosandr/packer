@@ -67,6 +67,7 @@ if [ $(rpm -E %rhel) -ge 9 ] || [ $(rpm -E %fedora) -ge 32 ]; then
   cat > /etc/ssh/sshd_config.d/90-root-pass.conf << EOF
 PasswordAuthentication yes
 PermitRootLogin yes
+MaxAuthTries 30
 EOF
 fi
 %{ if network_manager == "networkd" ~}

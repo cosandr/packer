@@ -10,12 +10,12 @@ variable "qemu_cpu_model" { default = "host" }
 
 # https://mirrors.almalinux.org/
 variable "alma9_checksum" {
-  default = "file:https://almalinux.uib.no/9.3/isos/x86_64/CHECKSUM"
+  default = "file:https://almalinux.uib.no/9.4/isos/x86_64/CHECKSUM"
 }
 
 # Need to update repo-alma9.cfg too
 variable "alma9_iso" {
-  default = "https://almalinux.uib.no/9.3/isos/x86_64/AlmaLinux-9.3-x86_64-boot.iso"
+  default = "https://almalinux.uib.no/9.4/isos/x86_64/AlmaLinux-9.4-x86_64-boot.iso"
 }
 
 # http://isoredirect.centos.org/centos/9-stream/isos/x86_64/
@@ -43,7 +43,7 @@ variable "rocky9_checksum" {
 
 # Need to update repo-rocky9.cfg too
 variable "rocky9_iso" {
-  default = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.3-x86_64-boot.iso"
+  default = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.4-x86_64-boot.iso"
 }
 
 variable "debian12_checksum" {
