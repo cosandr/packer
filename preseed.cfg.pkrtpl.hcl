@@ -1,6 +1,6 @@
 # https://github.com/vmware-samples/packer-examples-for-vsphere/blob/cdbc6f75d28dfe3afbca4d2ed5b06a456cceafb5/builds/linux/debian/11/data/ks.pkrtpl.hcl
 
-# Debian 11
+# Debian 12
 
 # Locale and Keyboard
 d-i debian-installer/locale string en_US
@@ -46,21 +46,30 @@ d-i passwd/make-user boolean false
 # Package Configuration
 d-i pkgsel/run_tasksel boolean false
 d-i pkgsel/include string \
+    apparmor-utils \
     apt-file \
+    auditd \
+    bash-completion \
+    binutils \
+    ca-certificates \
     cloud-guest-utils \
     curl \
     efibootmgr \
+    firewalld \
     git \
     htop \
+    locales \
     man-db \
     net-tools \
+    netcat-openbsd \
     nfs-common \
     openssh-server \
+    openssl \
     perl \
     python3-apt \
     rsync \
     sudo \
-    ufw \
+    systemd-timesyncd \
     vim \
     virt-what \
     wget
@@ -69,16 +78,15 @@ popularity-contest popularity-contest/participate boolean false
 
 # Enable root password login, install guest agents and configure networking
 d-i preseed/late_command string \
-    in-target sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config ; \
+    echo -e "PasswordAuthentication yes\nPermitRootLogin yes\nMaxAuthTries 30" > /target/etc/ssh/sshd_config.d/90-root-pass.conf ; \
     in-target /bin/sh -c -- 'virt-what | grep -q vmware && apt-get install -y open-vm-tools || true' ; \
     in-target /bin/sh -c -- 'virt-what | grep -qE "kvm|qemu" && apt-get install -y qemu-guest-agent || true' ; \
     sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT=/GRUB_CMDLINE_LINUX_DEFAULT="console=tty0 console=ttyS0,115200n8 no_timer_check"/' /target/etc/default/grub ; \
     in-target bash -c 'update-grub' ; \
-    in-target apt-get purge -y ifupdown && rm -rf /etc/network ; \
+    in-target apt-get purge -y ifupdown ufw && rm -rf /etc/network ; \
     echo -e "[Match]\nType=ether\n\n[Network]\nDHCP=yes\n" > /target/etc/systemd/network/dhcp.network ; \
-    in-target /bin/sh -c -- 'command -v resolvectl || apt-get install -y systemd-resolved' ; \
-    in-target systemctl enable systemd-networkd systemd-resolved ; \
-    ln -sf /run/systemd/resolve/stub-resolv.conf /target/etc/resolv.conf ;
+    in-target systemctl enable systemd-networkd systemd-timesyncd ; \
+    echo -e "nameserver 1.1.1.1\nnameserver 8.8.8.8" > /target/etc/resolv.conf ;
 
 # Umount preseed media early
 d-i preseed/early_command string \

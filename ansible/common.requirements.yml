@@ -1,12 +1,12 @@
 ---
 
+collections:
+  - name: hifis.toolkit
+    version: '>4.0,<5.0'
+
 roles:
   - name: cosandr.dnf_automatic
     src: https://github.com/cosandr/ansible-role-dnf-automatic.git
-    scm: git
-
-  - name: cosandr.unattended-upgrades
-    src: https://github.com/cosandr/ansible-role-unattended-upgrades.git
     scm: git
 
   - name: cosandr.epel

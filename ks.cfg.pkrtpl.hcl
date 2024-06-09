@@ -77,7 +77,7 @@ if [ $(rpm -E %fedora) = "%fedora" ]; then
   dnf install -y epel-release
 fi
 
-dnf install -y systemd-networkd systemd-resolved
+dnf install -y systemd-networkd
 
 cat <<EOF > /etc/systemd/network/dhcp.network
 [Match]
@@ -87,9 +87,12 @@ Type=ether
 DHCP=yes
 EOF
 
-systemctl enable systemd-networkd systemd-resolved
+systemctl enable systemd-networkd
 
-ln -rsf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+cat <<EOF > /etc/resolv.conf
+nameserver 1.1.1.1
+nameserver 8.8.8.8
+EOF
 
 rm -rfv /etc/NetworkManager /usr/lib/NetworkManager
 %{ endif ~}

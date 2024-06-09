@@ -18,6 +18,15 @@
     dnf_automatic_upgrade_type: "security"
     dnf_automatic_apply_updates: true
     dnf_automatic_download_updates: true
+    deb_block_packages:
+      - ifupdown
+      - network-manager
+      - ufw
+    unattended_origins_patterns:
+      - "origin=*"
+    unattended_package_blacklist:
+      - "linux-image*"
+      - "systemd*"
     unattended_remove_unused_dependencies: true
     unattended_remove_new_unused_dependencies: true
     unattended_automatic_reboot: false
@@ -39,8 +48,53 @@
         grub_cfg_path: "{{ __grub_search.files[0].path }}"
       when: __grub_search.matched > 0
 
+    - name: Debian tasks
+      when: ansible_os_family == 'Debian'
+      block:
+        - name: Block APT packages
+          ansible.builtin.copy:
+            content: |
+              {% for p in deb_block_packages %}
+              Package: {{ p }}
+              Pin: release *
+              Pin-Priority: -1
+
+              {% endfor %}
+            dest: /etc/apt/preferences.d/ansible
+            owner: root
+            group: root
+            mode: "0644"
+
+        - name: Copy apt sources
+          ansible.builtin.copy:
+            content: |
+              deb http://ftp.no.debian.org/debian {{ ansible_distribution_release | lower }} main
+
+              deb http://security.debian.org/ {{ ansible_distribution_release | lower }}-security main
+
+              deb http://ftp.no.debian.org/debian {{ ansible_distribution_release | lower }} contrib
+
+              deb http://ftp.no.debian.org/debian {{ ansible_distribution_release | lower }} non-free
+
+              deb http://deb.debian.org/debian {{ ansible_distribution_release | lower }}-backports main
+            dest: "/etc/apt/sources.list"
+            owner: root
+            group: root
+            mode: "0644"
+
+        # https://www.debian.org/releases/bookworm/amd64/release-notes/ch-information.html#non-free-split
+        - name: Disable Bookworm non-free-firmware notice
+          ansible.builtin.copy:
+            content: |
+              APT::Get::Update::SourceListWarnings::NonFreeFirmware "false";
+            dest: "/etc/apt/apt.conf.d/no-bookworm-firmware.conf"
+            owner: root
+            group: root
+            mode: "0644"
+          when: ansible_distribution_release | lower == "bookworm"
+
   roles:
-    - role: cosandr.unattended-upgrades
+    - role: hifis.toolkit.unattended_upgrades
       when: ansible_os_family == 'Debian'
 
     - role: cosandr.dnf_automatic
@@ -53,10 +107,9 @@
 
     - role: cosandr.firewall_config
       vars:
-        firewall_rules: "{{ family_rules.get(ansible_os_family, []) }}"
-        family_rules:
-          Debian:
-            - port: 22
+        firewalld_zones:
+          - name: public
+            interfaces: ["enp1s0"]
 
   tasks:
     - name: Update all packages (RedHat)  # noqa package-latest
@@ -151,7 +204,7 @@
     # Direct firmware load for i915/kbl_dmc_ver1_04.bin failed with error -2
     # [drm] Failed to load DMC firmware i915/kbl_dmc_ver1_04.bin. Disabling runtime power management.
     # [drm] DMC firmware homepage: https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/i915
-    - name: Remove firmwares
+    - name: Remove firmwares (RedHat)
       ansible.builtin.dnf:
         name: "*firmware"
         state: absent
@@ -159,10 +212,20 @@
         - ansible_os_family == 'RedHat'
         - "'intelgpu' not in source_name"
 
-    - name: Setup Intel GPUs
+    - name: Remove firmwares (Debian)
+      ansible.builtin.apt:
+        name:
+          - "*firmware"
+          - "*microcode"
+        state: absent
+        purge: true
+      when:
+        - ansible_os_family == 'Debian'
+        - "'intelgpu' not in source_name"
+
+    - name: Setup Intel GPUs (RedHat)
       when:
         - "'intelgpu' in source_name"
-        # TODO: Debian support
         - ansible_os_family == 'RedHat'
       block:
         - name: Install RPMFusion (Fedora)
@@ -190,6 +253,28 @@
           ansible.builtin.dnf:
             name: intel-media-driver
             state: present
+
+    - name: Setup Intel GPUs (Debian)
+      ansible.builtin.apt:
+        name:
+          - intel-media-va-driver-non-free
+          - vainfo
+        state: present
+      when:
+        - "'intelgpu' in source_name"
+        - ansible_os_family == 'Debian'
+
+  post_tasks:
+    - name: Autoclean (Debian)
+      ansible.builtin.apt:
+        autoremove: true
+        purge: true
+      when: ansible_os_family == 'Debian'
+
+    - name: Remove temporary SSH config
+      ansible.builtin.file:
+        path: /etc/ssh/sshd_config.d/90-root-pass.conf
+        state: absent
 
   handlers:
     - name: Enable grow-rootfs
