@@ -68,15 +68,13 @@
         - name: Copy apt sources
           ansible.builtin.copy:
             content: |
-              deb http://ftp.no.debian.org/debian {{ ansible_distribution_release | lower }} main
+              deb http://ftp.no.debian.org/debian {{ ansible_distribution_release | lower }} main contrib non-free
 
-              deb http://security.debian.org/ {{ ansible_distribution_release | lower }}-security main
+              deb http://ftp.no.debian.org/debian {{ ansible_distribution_release | lower }}-updates main contrib non-free
 
-              deb http://ftp.no.debian.org/debian {{ ansible_distribution_release | lower }} contrib
+              deb http://deb.debian.org/debian-security {{ ansible_distribution_release | lower }}-security main contrib non-free
 
-              deb http://ftp.no.debian.org/debian {{ ansible_distribution_release | lower }} non-free
-
-              deb http://deb.debian.org/debian {{ ansible_distribution_release | lower }}-backports main
+              deb http://ftp.no.debian.org/debian {{ ansible_distribution_release | lower }}-backports main contrib non-free
             dest: "/etc/apt/sources.list"
             owner: root
             group: root
