@@ -63,16 +63,23 @@ elif $(virt-what | grep -qE 'kvm|qemu'); then
   dnf install -y qemu-guest-agent
 fi
 
-if [ $(rpm -E %rhel) -ge 9 ] || [ $(rpm -E %fedora) -ge 32 ]; then
+if [ "$(rpm -E %rhel)" -ge 9 ] || [ "$(rpm -E %fedora)" -ge 32 ]; then
   cat > /etc/ssh/sshd_config.d/90-root-pass.conf << EOF
 PasswordAuthentication yes
 PermitRootLogin yes
 MaxAuthTries 30
 EOF
 fi
+
+# Install rocky-release-security
+if [ "$(rpm -E %dist_name)" = "Rocky Linux" ]; then
+  dnf install -y rocky-release-security
+  rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-Rocky-SIG-Security
+fi
+
 %{ if network_manager == "networkd" ~}
 # Install EPEL if not Fedora
-if [ $(rpm -E %fedora) = "%fedora" ]; then
+if [ "$(rpm -E %fedora)" = "%fedora" ]; then
   dnf config-manager --set-enabled crb
   dnf install -y epel-release
 fi
