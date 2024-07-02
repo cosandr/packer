@@ -29,12 +29,12 @@ variable "cs9_iso" {
 
 # https://getfedora.org/security/
 variable "fedora_checksum" {
-  default = "file:https://download.fedoraproject.org/pub/fedora/linux/releases/39/Server/x86_64/iso/Fedora-Server-39-1.5-x86_64-CHECKSUM"
+  default = "file:https://download.fedoraproject.org/pub/fedora/linux/releases/40/Server/x86_64/iso/Fedora-Server-40-1.14-x86_64-CHECKSUM"
 }
 
 # https://getfedora.org/en/server/download/
 variable "fedora_iso" {
-  default = "https://download.fedoraproject.org/pub/fedora/linux/releases/39/Server/x86_64/iso/Fedora-Server-netinst-x86_64-39-1.5.iso"
+  default = "https://download.fedoraproject.org/pub/fedora/linux/releases/40/Server/x86_64/iso/Fedora-Server-netinst-x86_64-40-1.14.iso"
 }
 
 variable "rocky9_checksum" {
