@@ -1,4 +1,4 @@
-BUILDS			= alma9 fedora39_btrfs rocky9 debian12
+BUILDS			= alma9 fedora40_btrfs rocky9 debian12
 BUILDS_BASE		= $(addprefix base-, $(BUILDS))
 BUILDS_CLONE 	= $(BUILDS) rocky9_intelgpu
 BUILDS_CLONE	:= $(addprefix clone-, $(BUILDS_CLONE))
@@ -42,7 +42,7 @@ clone: $(BUILDS_CLONE)
 base-%:
 	test -f "artifacts/base-$*/base-$*.raw" || packer build -var-file $(VARS_FILE) -only "qemu.base-$*" .
 
-clone-%:
+clone-%: base-%*
 	test -f "artifacts/$*_packer/$*_packer.raw" || packer build -var-file $(VARS_FILE) -only "qemu.$*_packer" .
 
 copy-%:
