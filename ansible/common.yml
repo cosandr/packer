@@ -36,18 +36,6 @@
         path: "/etc/default/grub"
       register: __grub_conf
 
-    - name: Look for grub.cfg
-      ansible.builtin.find:
-        paths: /boot/efi/EFI
-        patterns: 'grub.cfg'
-        recurse: true
-      register: __grub_search
-
-    - name: Set grub.cfg path
-      ansible.builtin.set_fact:
-        grub_cfg_path: "{{ __grub_search.files[0].path }}"
-      when: __grub_search.matched > 0
-
     - name: Debian tasks
       when: ansible_os_family == 'Debian'
       block:
@@ -142,7 +130,7 @@
         dest: /usr/bin/grow-rootfs
         owner: root
         group: root
-        mode: 0755
+        mode: "0755"
 
     - name: Install grow-rootfs service
       ansible.builtin.copy:
@@ -150,7 +138,7 @@
         dest: "/etc/systemd/system/grow-rootfs.service"
         owner: root
         group: root
-        mode: 0644
+        mode: "0644"
       notify: Enable grow-rootfs
 
     - name: Install template-first-boot script
@@ -159,7 +147,7 @@
         dest: /usr/bin/template-first-boot
         owner: root
         group: root
-        mode: 0755
+        mode: "0755"
 
     - name: Install template-first-boot service
       ansible.builtin.copy:
@@ -167,7 +155,7 @@
         dest: "/etc/systemd/system/template-first-boot.service"
         owner: root
         group: root
-        mode: 0644
+        mode: "0644"
       notify: Enable template-first-boot
 
     - name: Reduce grub timeout
@@ -185,6 +173,11 @@
         regexp: '^#?NAutoVTs='
         line: 'NAutoVTs=0'
         state: present
+        # Fedora 41 doesn't have this file
+        create: true
+        owner: root
+        group: root
+        mode: "0644"
 
     - name: Install root keys
       ansible.posix.authorized_key:
@@ -289,9 +282,8 @@
 
     - name: Regenerate grub (RedHat)
       listen: Regenerate grub
-      ansible.builtin.command: "grub2-mkconfig -o {{ grub_cfg_path }}"
+      ansible.builtin.command: "grub2-mkconfig -o /boot/grub2/grub.cfg"
       when:
-        - grub_cfg_path is defined
         - ansible_os_family == 'RedHat'
 
     - name: Regenerate grub (Debian)

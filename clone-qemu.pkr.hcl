@@ -42,10 +42,10 @@ build {
 
   ### Fedora ###
   source "source.qemu.clone" {
-    name             = "fedora40_btrfs_packer"
-    vm_name          = format("fedora40_btrfs_packer.%s", var.qemu_disk_format)
-    output_directory = "artifacts/fedora40_btrfs_packer"
-    iso_url          = format("artifacts/base-fedora40_btrfs/base-fedora40_btrfs.%s", var.qemu_disk_format)
+    name             = "fedora41_btrfs_packer"
+    vm_name          = format("fedora41_btrfs_packer.%s", var.qemu_disk_format)
+    output_directory = "artifacts/fedora41_btrfs_packer"
+    iso_url          = format("artifacts/base-fedora41_btrfs/base-fedora41_btrfs.%s", var.qemu_disk_format)
   }
 
   ### Rocky Linux ###

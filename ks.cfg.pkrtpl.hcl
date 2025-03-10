@@ -71,6 +71,10 @@ MaxAuthTries 30
 EOF
 fi
 
+if [ "$(rpm -E %fedora)" -ge 41 ]; then
+  dnf install -y python3-libdnf5
+fi
+
 # Install rocky-release-security
 if [ "$(rpm -E %dist_name)" = "Rocky Linux" ]; then
   dnf install -y rocky-release-security
