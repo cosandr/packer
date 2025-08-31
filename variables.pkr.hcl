@@ -10,21 +10,12 @@ variable "qemu_cpu_model" { default = "host" }
 
 # https://mirrors.almalinux.org/
 variable "alma9_checksum" {
-  default = "file:https://almalinux.uib.no/9.5/isos/x86_64/CHECKSUM"
+  default = "file:https://almalinux.uib.no/9.6/isos/x86_64/CHECKSUM"
 }
 
 # Need to update repo-alma9.cfg too
 variable "alma9_iso" {
-  default = "https://almalinux.uib.no/9.5/isos/x86_64/AlmaLinux-9.5-x86_64-boot.iso"
-}
-
-# http://isoredirect.centos.org/centos/9-stream/isos/x86_64/
-variable "cs9_checksum" {
-  default = "file:https://mirror.netsite.dk/centos-stream/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-latest-x86_64-boot.iso.SHA256SUM"
-}
-
-variable "cs9_iso" {
-  default = "https://mirror.netsite.dk/centos-stream/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-latest-x86_64-boot.iso"
+  default = "https://almalinux.uib.no/9.6/isos/x86_64/AlmaLinux-9.6-x86_64-boot.iso"
 }
 
 # https://getfedora.org/security/
@@ -38,18 +29,26 @@ variable "fedora_iso" {
 }
 
 variable "rocky9_checksum" {
-  default = "file:https://download.rockylinux.org/pub/rocky/9/isos/x86_64/CHECKSUM"
+  default = "file:https://rockylinux.hi.no/9.6/isos/x86_64/CHECKSUM"
 }
 
 # Need to update repo-rocky9.cfg too
 variable "rocky9_iso" {
-  default = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.5-x86_64-boot.iso"
+  default = "https://rockylinux.hi.no/9.6/isos/x86_64/Rocky-9.6-x86_64-boot.iso"
 }
 
 variable "debian12_checksum" {
-  default = "file:https://cdimage.debian.org/debian-cd/12.9.0/amd64/iso-cd/SHA256SUMS"
+  default = "file:https://cdimage.debian.org/cdimage/archive/12.11.0/amd64/iso-cd/SHA256SUMS"
 }
 
 variable "debian12_iso" {
-  default = "https://cdimage.debian.org/debian-cd/12.9.0/amd64/iso-cd/debian-12.9.0-amd64-netinst.iso"
+  default = "https://cdimage.debian.org/cdimage/archive/12.11.0/amd64/iso-cd/debian-12.11.0-amd64-netinst.iso"
+}
+
+variable "debian13_checksum" {
+  default = "file:https://cdimage.debian.org/debian-cd/13.0.0/amd64/iso-cd/SHA256SUMS"
+}
+
+variable "debian13_iso" {
+  default = "https://cdimage.debian.org/debian-cd/13.0.0/amd64/iso-cd/debian-13.0.0-amd64-netinst.iso"
 }

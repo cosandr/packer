@@ -41,23 +41,6 @@ build {
     iso_url      = var.alma9_iso
   }
 
-  ### CentOS ###
-  source "source.qemu.base" {
-    name             = "base-cs9"
-    vm_name          = format("base-cs9.%s", var.qemu_disk_format)
-    output_directory = "artifacts/base-cs9"
-    cd_content = {
-      "ks.cfg" = templatefile("ks.cfg.pkrtpl.hcl", {
-        repo_file       = "cs9",
-        parts_file      = "ext4",
-        network_manager = "NetworkManager",
-      }),
-    }
-    boot_command = local.efi_el9_command
-    iso_checksum = var.cs9_checksum
-    iso_url      = var.cs9_iso
-  }
-
   ### Fedora ###
   source "source.qemu.base" {
     name             = "base-fedora41_btrfs"
@@ -97,13 +80,28 @@ build {
     name             = "base-debian12"
     vm_name          = format("base-debian12.%s", var.qemu_disk_format)
     output_directory = "artifacts/base-debian12"
-    cd_content = {
-      "preseed.cfg" = templatefile("preseed.cfg.pkrtpl.hcl", {
+    http_content = {
+      "/preseed.cfg" = templatefile("preseed.cfg.pkrtpl.hcl", {
         parts_file = "regular",
       }),
     }
     boot_command = local.deb_command
     iso_checksum = var.debian12_checksum
     iso_url      = var.debian12_iso
+  }
+
+  ### Debian 13 ###
+  source "source.qemu.base" {
+    name             = "base-debian13"
+    vm_name          = format("base-debian13.%s", var.qemu_disk_format)
+    output_directory = "artifacts/base-debian13"
+    http_content = {
+      "/preseed.cfg" = templatefile("preseed.cfg.pkrtpl.hcl", {
+        parts_file = "regular",
+      }),
+    }
+    boot_command = local.deb_command
+    iso_checksum = var.debian13_checksum
+    iso_url      = var.debian13_iso
   }
 }

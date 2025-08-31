@@ -87,7 +87,3 @@ d-i preseed/late_command string \
     echo -e "[Match]\nType=ether\n\n[Network]\nDHCP=yes\n" > /target/etc/systemd/network/dhcp.network ; \
     in-target systemctl enable systemd-networkd systemd-timesyncd ; \
     echo -e "nameserver 1.1.1.1\nnameserver 8.8.8.8" > /target/etc/resolv.conf ;
-
-# Umount preseed media early
-d-i preseed/early_command string \
-    umount /media && echo 1 > /sys/block/sr1/device/delete ;

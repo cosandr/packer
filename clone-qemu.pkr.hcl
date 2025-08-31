@@ -32,14 +32,6 @@ build {
     iso_url          = format("artifacts/base-alma9/base-alma9.%s", var.qemu_disk_format)
   }
 
-  ### CentOS ###
-  source "source.qemu.clone" {
-    name             = "cs9_packer"
-    vm_name          = format("cs9_packer.%s", var.qemu_disk_format)
-    output_directory = "artifacts/cs9_packer"
-    iso_url          = format("artifacts/base-cs9/base-cs9.%s", var.qemu_disk_format)
-  }
-
   ### Fedora ###
   source "source.qemu.clone" {
     name             = "fedora41_btrfs_packer"
@@ -69,6 +61,14 @@ build {
     vm_name          = format("debian12_packer.%s", var.qemu_disk_format)
     output_directory = "artifacts/debian12_packer"
     iso_url          = format("artifacts/base-debian12/base-debian12.%s", var.qemu_disk_format)
+  }
+
+  ### Debian 13 ###
+  source "source.qemu.clone" {
+    name             = "debian13_packer"
+    vm_name          = format("debian13_packer.%s", var.qemu_disk_format)
+    output_directory = "artifacts/debian13_packer"
+    iso_url          = format("artifacts/base-debian13/base-debian13.%s", var.qemu_disk_format)
   }
 
   provisioner "ansible" {

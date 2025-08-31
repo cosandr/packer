@@ -14,17 +14,9 @@ locals {
     "linux /install.amd/vmlinuz",
     " auto-install/enable=true",
     " debconf/priority=critical",
-    " file=/media/preseed.cfg",
+    " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
     " noprompt --<enter>",
     "initrd /install.amd/initrd.gz<enter>",
     "boot<enter>",
-    "<wait15s>",
-    "<enter><wait>",
-    "<enter><wait>",
-    "<leftAltOn><f2><leftAltOff>",
-    "<enter><wait>",
-    "mount /dev/sr1 /media<enter>",
-    "<leftAltOn><f1><leftAltOff>",
-    "<down><down><down><down><enter>"
   ]
 }
